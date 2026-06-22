@@ -1,0 +1,5 @@
+Place your company profile PDF here with this exact filename:
+
+  company-profile.pdf
+
+The hero slider "Download Company Profile" button links to this file.

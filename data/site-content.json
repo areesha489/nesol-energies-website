@@ -1,0 +1,554 @@
+{
+  "site": {
+    "title": "Nesol Energies | Group of Companies — Renewable Energy Solutions",
+    "description": "Nesol Energies delivers premium solar, wind, and renewable energy solutions across Pakistan.",
+    "companyProfilePdf": "/company-profile.pdf"
+  },
+  "contact": {
+    "phone": "+92 339 0007944",
+    "email": "info@nesolenergies.com",
+    "whatsapp": "https://wa.me/923390007944?text=Hi%20Nesol%20Energies,%20I%20would%20like%20to%20get%20a%20quote.",
+    "address": {
+      "label": "Head Office",
+      "line1": "Office No. 906, Dominion Business Center",
+      "line2": "Bahria Town",
+      "line3": "Karachi, Pakistan"
+    }
+  },
+  "navLinks": [
+    {
+      "href": "/",
+      "label": "Home"
+    },
+    {
+      "href": "/about",
+      "label": "About"
+    },
+    {
+      "href": "/services",
+      "label": "Services"
+    },
+    {
+      "href": "/companies",
+      "label": "Our Companies"
+    },
+    {
+      "href": "/projects",
+      "label": "Projects"
+    },
+    {
+      "href": "/calculator",
+      "label": "Price Calculator"
+    },
+    {
+      "href": "/contact",
+      "label": "Contact"
+    }
+  ],
+  "socialLinks": [
+    {
+      "name": "Facebook",
+      "href": "https://www.facebook.com/profile.php?id=61571937225134",
+      "icon": "facebook"
+    },
+    {
+      "name": "Instagram",
+      "href": "https://www.instagram.com/nesolenergies",
+      "icon": "instagram"
+    }
+  ],
+  "stats": [
+    {
+      "value": 500,
+      "suffix": "+",
+      "label": "Projects Completed"
+    },
+    {
+      "value": 15,
+      "suffix": "+",
+      "label": "Years Experience"
+    },
+    {
+      "value": 98,
+      "suffix": "%",
+      "label": "Client Satisfaction"
+    },
+    {
+      "value": 50,
+      "suffix": "MW+",
+      "label": "Energy Generated"
+    }
+  ],
+  "hero": {
+    "badge": "Group of Companies — Powering Tomorrow",
+    "slides": [
+      {
+        "id": "0b83f6c7-3f84-4762-aad2-102e4cb47d43",
+        "image": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80",
+        "showcase": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&q=80",
+        "title": "Harness the",
+        "highlight": "Power of Sun",
+        "subtitle": "Premium solar solutions across Pakistan — cut electricity bills by up to 90%."
+      },
+      {
+        "id": "1ef033b7-c4a6-4a6c-a3a4-768422af87c7",
+        "image": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1920&q=80",
+        "showcase": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80",
+        "title": "Mega-Scale",
+        "highlight": "Solar Parks",
+        "subtitle": "Utility-scale renewable energy projects powering industries nationwide."
+      },
+      {
+        "id": "c40654fb-0eb8-45e3-82a8-3a97d913deb0",
+        "image": "/uploads/1782091166254-3oq33n.png",
+        "showcase": "https://images.unsplash.com/photo-1558449028-b06a8d0ea4d0?w=800&q=80",
+        "title": "Smart Rooftop",
+        "highlight": "Solar Systems",
+        "subtitle": "Residential installations with net metering, monitoring & 25-year warranty."
+      },
+      {
+        "id": "014f12bd-3b28-41d0-9d40-7fb14cedd18e",
+        "image": "/uploads/1782091329227-lmv0ns.png",
+        "showcase": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80",
+        "title": "Nesol Energies",
+        "highlight": "Group of Companies",
+        "subtitle": "Four trusted brands — one Nesol family powering innovation, property, energy, and organic living."
+      }
+    ],
+    "floatingStats": {
+      "savings": {
+        "value": "4K+",
+        "label": "Annual Savings"
+      },
+      "customers": {
+        "value": "100+",
+        "label": "Happy Customers"
+      }
+    },
+    "primaryButton": "Download Company Profile",
+    "secondaryButton": "Explore Services"
+  },
+  "about": {
+    "badge": "About Nesol Energies",
+    "heading": "Leading the",
+    "headingHighlight": "Green Revolution",
+    "paragraph": "Nesol Group of Companies brings together Nesol (Next Edge Solutions), Nesol Properties, Nesol Energies, and Organo Mart — delivering innovation, property, clean energy, and organic living across Pakistan.",
+    "image": "/uploads/1782095632087-c8ljbu.jpeg",
+    "yearsBadge": {
+      "value": "15+",
+      "label": "Years of Excellence"
+    },
+    "features": [
+      {
+        "id": "d81a0974-7097-450b-bcf9-3f23c69fd00c",
+        "icon": "shield",
+        "title": "Certified Experts",
+        "description": "MNRE-approved installers with 500+ trained technicians nationwide."
+      },
+      {
+        "id": "6e5e5440-9701-43b6-b9c8-31c07c6d274c",
+        "icon": "cpu",
+        "title": "Smart Monitoring",
+        "description": "Real-time app tracking of energy production and savings on your phone."
+      },
+      {
+        "id": "d3b1ca6b-4164-4a48-9916-7c070b3541c6",
+        "icon": "wallet",
+        "title": "Easy Financing",
+        "description": "Zero down payment EMI options with flexible repayment plans."
+      }
+    ]
+  },
+  "services": {
+    "badge": "Our Services",
+    "heading": "Complete Renewable",
+    "headingHighlight": "Energy Solutions",
+    "items": [
+      {
+        "id": "5e3da4a7-d656-454f-87c0-480ad47b3d9c",
+        "icon": "sun",
+        "title": "Solar Energy Solutions",
+        "description": "End-to-end solar panel installation for residential, commercial, and industrial sectors with net metering support.",
+        "featured": true
+      },
+      {
+        "id": "de406656-c040-46d2-9bb9-0df881e6f387",
+        "icon": "wind",
+        "title": "Wind Power Systems",
+        "description": "Large-scale wind turbine projects and hybrid renewable energy systems for sustainable power generation.",
+        "featured": false
+      },
+      {
+        "id": "cc4acaae-4acf-4ee5-aee0-7f0827a72eed",
+        "icon": "battery",
+        "title": "Energy Storage",
+        "description": "Advanced lithium-ion battery storage solutions for uninterrupted clean power during outages.",
+        "featured": false
+      },
+      {
+        "id": "352293e9-6d6a-40ff-adc1-b1250bf1c9f4",
+        "icon": "building",
+        "title": "Commercial EPC",
+        "description": "Engineering, procurement, and construction services for mega-scale renewable energy projects.",
+        "featured": false
+      },
+      {
+        "id": "01539d87-e0b8-42fe-83d8-99aacbdc94b4",
+        "icon": "wrench",
+        "title": "O&M Services",
+        "description": "Operations and maintenance contracts with real-time monitoring and performance optimization.",
+        "featured": false
+      },
+      {
+        "id": "34a7b952-dab9-41d8-8310-ebc6a3f4a547",
+        "icon": "chart",
+        "title": "Energy Consulting",
+        "description": "Free site assessments, ROI analysis, and customized energy roadmaps for your business.",
+        "featured": false
+      }
+    ]
+  },
+  "companies": {
+    "badge": "Group of Companies",
+    "heading": "Our",
+    "headingHighlight": "Family of Brands",
+    "subtitle": "Nesol (Next Edge Solutions), Nesol Properties, Nesol Energies & Organo Mart — united under one vision.",
+    "items": [
+      {
+        "id": "5ca4e67d-afd7-488b-b03f-8863d13792e7",
+        "name": "Nesol (Next Edge Solutions)",
+        "tagline": "Technology & Innovation",
+        "description": "The parent brand powering strategy, digital solutions, and business growth across the entire Nesol family.",
+        "color": "from-blue-600 to-cyan-500",
+        "icon": "layers",
+        "social": [
+          {
+            "icon": "facebook",
+            "href": "https://www.facebook.com/nextedgesolution/",
+            "label": "Facebook"
+          },
+          {
+            "icon": "instagram",
+            "href": "https://www.instagram.com/nextedgesolution/",
+            "label": "Instagram"
+          },
+          {
+            "icon": "pinterest",
+            "href": "https://uk.pinterest.com/nextedgesolution/",
+            "label": "Pinterest"
+          },
+          {
+            "icon": "linkedin",
+            "href": "https://www.linkedin.com/company/nesol-uk/?viewAsMember=true",
+            "label": "LinkedIn"
+          },
+          {
+            "icon": "tiktok",
+            "href": "https://www.tiktok.com/@nextedgesolution",
+            "label": "TikTok"
+          },
+          {
+            "icon": "youtube",
+            "href": "https://www.youtube.com/@nextedgesolution",
+            "label": "YouTube"
+          }
+        ]
+      },
+      {
+        "id": "9fc36192-e416-405c-9fa1-9800421720b3",
+        "name": "Nesol Properties",
+        "tagline": "Real Estate & Development",
+        "description": "Premium residential and commercial property development, investment, and asset management in Pakistan.",
+        "color": "from-indigo-600 to-blue-400",
+        "icon": "home",
+        "social": [
+          {
+            "icon": "facebook",
+            "href": "https://www.facebook.com/profile.php?id=61577101181009",
+            "label": "Facebook"
+          },
+          {
+            "icon": "instagram",
+            "href": "https://www.instagram.com/nesolproperties/",
+            "label": "Instagram"
+          },
+          {
+            "icon": "linkedin",
+            "href": "https://www.linkedin.com/company/nesol-properties/?viewAsMember=true",
+            "label": "LinkedIn"
+          }
+        ]
+      },
+      {
+        "id": "dff1b187-068f-42dd-a5b9-8189bff73588",
+        "name": "Nesol Energies",
+        "tagline": "Renewable Energy",
+        "description": "Solar and clean energy solutions for homes, businesses, and industries — your partner in Pakistan's green transition.",
+        "color": "from-orange-500 to-amber-400",
+        "icon": "zap",
+        "featured": true,
+        "social": [
+          {
+            "icon": "facebook",
+            "href": "https://www.facebook.com/profile.php?id=61571937225134",
+            "label": "Facebook"
+          },
+          {
+            "icon": "instagram",
+            "href": "https://www.instagram.com/nesolenergies",
+            "label": "Instagram"
+          }
+        ]
+      },
+      {
+        "id": "a08faea0-0c90-4c83-b5bc-3e586629d59d",
+        "name": "Organo Mart",
+        "tagline": "Organic & Natural Retail",
+        "description": "Farm-fresh organic and natural products for healthier living — quality essentials delivered with care.",
+        "color": "from-teal-500 to-emerald-400",
+        "icon": "leaf",
+        "social": [
+          {
+            "icon": "facebook",
+            "href": "https://www.facebook.com/profile.php?id=61589835946939",
+            "label": "Facebook"
+          },
+          {
+            "icon": "instagram",
+            "href": "https://www.instagram.com/organoo_mart/",
+            "label": "Instagram"
+          },
+          {
+            "icon": "tiktok",
+            "href": "https://www.tiktok.com/@organoo_mart",
+            "label": "TikTok"
+          }
+        ]
+      }
+    ]
+  },
+  "projects": {
+    "badge": "Our Projects",
+    "heading": "Success",
+    "headingHighlight": "Stories",
+    "items": [
+      {
+        "id": "da9470d6-9bd4-4358-bbf0-992e792cfc65",
+        "title": "Hybrid Solar System Installation",
+        "kw": "12 kW",
+        "location": "Tando Jahania, Hyderabad, Pakistan",
+        "images": [
+          "/uploads/1782093389921-43jc8r.png"
+        ]
+      },
+      {
+        "id": "d9853a07-0de6-4bcd-97b7-11a90eefe93c",
+        "title": "Hybrid Solar System Installation",
+        "kw": "6kW ",
+        "location": "Tando Jahania, Hyderabad, Pakistan",
+        "images": [
+          "/uploads/1782093536934-uhc8f6.png",
+          "/uploads/1782093609825-mpfwk1.png"
+        ]
+      },
+      {
+        "id": "37fce3f0-7983-4177-8c2d-f4d6fc5ef1c4",
+        "title": "Industrial Rooftop",
+        "kw": "20kW",
+        "location": "Islamabad, Pakistan",
+        "images": [
+          "/uploads/1782093643565-6xskax.png",
+          "/uploads/1782093654618-f52xyd.png"
+        ]
+      },
+      {
+        "id": "ddd5a3f6-7bf3-4355-8615-f9dfb46232fc",
+        "title": "Residential Cluster",
+        "kw": "10 kW",
+        "location": "Multan, Pakistan",
+        "images": [
+          "/uploads/1782093721523-znguyo.png"
+        ]
+      },
+      {
+        "id": "7485772d-6da3-4d5b-aeff-f70cbb7cb5e1",
+        "title": "Industrial Site",
+        "kw": "50kW",
+        "location": "Gwadar, Pakistan",
+        "images": [
+          "/uploads/1782093751731-4wrqez.png"
+        ]
+      },
+      {
+        "id": "43d1d255-55b6-49b7-aa31-f63795a0ec45",
+        "title": "Commercial Complex",
+        "kw": "15 kW",
+        "location": "Karachi, Pakistan",
+        "images": [
+          "/uploads/1782093792070-3uj1g0.png"
+        ]
+      }
+    ]
+  },
+  "process": {
+    "badge": "4 Simple Steps",
+    "heading": "Effortless Process, Continuous Power",
+    "footerText": "Join 500+ clients choosing clean energy",
+    "items": [
+      {
+        "id": "113addcf-429b-4b4b-aac6-7871bad1df21",
+        "step": "01",
+        "title": "Consultation",
+        "description": "Free energy audit and customized solution design for your needs."
+      },
+      {
+        "id": "c38be5d3-8757-4847-8816-40fc6d6bba86",
+        "step": "02",
+        "title": "Engineering",
+        "description": "Detailed system design, permits, and subsidy documentation handled."
+      },
+      {
+        "id": "94f98879-46ab-4073-a267-4e02a16ccc6e",
+        "step": "03",
+        "title": "Installation",
+        "description": "Professional setup by certified technicians in 1–5 days."
+      },
+      {
+        "id": "a13917e1-f052-4da2-ad52-8e02d1a8fa98",
+        "step": "04",
+        "title": "Power On",
+        "description": "Grid connection, monitoring setup, and lifetime support begins."
+      }
+    ]
+  },
+  "testimonials": {
+    "badge": "Testimonials",
+    "heading": "What Our",
+    "headingHighlight": "Clients Say",
+    "items": [
+      {
+        "id": "fcd6e6f8-6213-4d3e-beef-c1a29e3c25a8",
+        "quote": "Nesol Energies transformed our factory rooftop into a power plant. Our electricity costs dropped by 70% in the first year alone.",
+        "author": "Ahmed Khan",
+        "role": "Director, Khan Industries",
+        "initials": "AK"
+      },
+      {
+        "id": "61f047ac-1018-4b9f-bf64-532a9d1ed494",
+        "quote": "Professional team, transparent pricing, and excellent after-sales support. The best renewable energy partner we've worked with.",
+        "author": "Fatima Ali",
+        "role": "CEO, GreenTech Solutions",
+        "initials": "FA"
+      },
+      {
+        "id": "a0417bcd-5fe8-4ac2-9737-eea69cc90e13",
+        "quote": "From consultation to commissioning, everything was seamless. Nesol's Group of Companies delivers world-class energy solutions.",
+        "author": "Usman Malik",
+        "role": "Plant Head, Malik Textiles",
+        "initials": "UM"
+      }
+    ]
+  },
+  "cta": {
+    "heading": "Ready to Switch to Solar?",
+    "subtitle": "Free site assessment & savings report within 24 hours.",
+    "buttonText": "Book Free Assessment"
+  },
+  "footer": {
+    "tagline": "Empowering Pakistan with clean, affordable renewable energy since 2010.",
+    "serviceLinks": [
+      "Solar Energy",
+      "Wind Power",
+      "Energy Storage",
+      "Commercial EPC"
+    ],
+    "copyright": "Nesol Energies Group of Companies. All rights reserved."
+  },
+  "pricingCalculator": {
+    "badge": "Solar Price Calculator",
+    "heading": "Estimate Your",
+    "headingHighlight": "Solar Budget",
+    "subtitle": "Enter your required system size in kW and get an instant min–max price range.",
+    "inputLabel": "System Size (kW)",
+    "currency": "Rs",
+    "minLabel": "Minimum Budget",
+    "maxLabel": "Maximum Budget",
+    "note": "Prices are estimates and may vary based on site survey, equipment brand, and installation complexity.",
+    "buttonText": "Get Exact Quote",
+    "tiers": [
+      {
+        "id": "3f0ae1e6-4528-455b-8964-4849c9b6548d",
+        "kw": 3,
+        "minPrice": 3000,
+        "maxPrice": 6000,
+        "label": "Small Home"
+      },
+      {
+        "id": "94fc77fe-d486-4e6e-87fc-24100f00ebb8",
+        "kw": 5,
+        "minPrice": 5000,
+        "maxPrice": 10000,
+        "label": "Standard Home"
+      },
+      {
+        "id": "bc94c416-c2c4-41ca-acaa-9341f505b993",
+        "kw": 10,
+        "minPrice": 9000,
+        "maxPrice": 16000,
+        "label": "Large Home"
+      },
+      {
+        "id": "b83ca5c7-63cb-4277-b939-0758b6bed219",
+        "kw": 20,
+        "minPrice": 16000,
+        "maxPrice": 28000,
+        "label": "Commercial"
+      },
+      {
+        "id": "aca057ec-0e74-4473-89e1-6238ecf08489",
+        "kw": 50,
+        "minPrice": 35000,
+        "maxPrice": 60000,
+        "label": "Industrial"
+      }
+    ]
+  },
+  "pageHeaders": {
+    "about": {
+      "title": "About",
+      "highlight": "Nesol Energies",
+      "subtitle": "Leading the green revolution with 15+ years of renewable energy excellence.",
+      "image": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1920&q=80"
+    },
+    "services": {
+      "title": "Our",
+      "highlight": "Services",
+      "subtitle": "From consultation to installation — complete clean energy solutions.",
+      "image": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80"
+    },
+    "companies": {
+      "title": "Group of",
+      "highlight": "Companies",
+      "subtitle": "Nesol (Next Edge Solutions), Nesol Properties, Nesol Energies & Organo Mart — one family, four brands.",
+      "image": "https://images.unsplash.com/photo-1497435334941-8c899ee9e9e0?w=1920&q=80"
+    },
+    "projects": {
+      "title": "Our",
+      "highlight": "Projects",
+      "subtitle": "500+ successful installations powering homes, industries, and communities.",
+      "image": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1920&q=80"
+    },
+    "contact": {
+      "title": "Contact",
+      "highlight": "Us",
+      "subtitle": "Our renewable energy experts are ready to power your journey.",
+      "image": "https://images.unsplash.com/photo-1613665813447-82a78c468028?w=1920&q=80"
+    },
+    "calculator": {
+      "title": "Solar Price",
+      "highlight": "Calculator",
+      "subtitle": "Enter kW size and discover your estimated min–max solar installation budget.",
+      "image": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80"
+    }
+  }
+}
