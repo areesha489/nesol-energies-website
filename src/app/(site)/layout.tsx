@@ -5,6 +5,7 @@ import Chatbot from "@/components/Chatbot";
 import PageHeadersPreload from "@/components/PageHeadersPreload";
 import ScrollToTop from "@/components/ScrollToTop";
 import { ContentProvider } from "@/components/ContentProvider";
+import { CartProvider } from "@/components/CartProvider";
 import { getSiteContent } from "@/lib/content-store";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -20,6 +21,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
   return (
     <ContentProvider content={content}>
+      <CartProvider>
       {bannerUrls.map((url) => (
         <link key={url} rel="preload" as="image" href={url} />
       ))}
@@ -30,6 +32,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <Footer />
       <BackToTop />
       <Chatbot />
+      </CartProvider>
     </ContentProvider>
   );
 }

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import Logo from "./Logo";
 import { useContent } from "./ContentProvider";
 
@@ -16,12 +16,30 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
+const quoteButtonClass =
+  "inline-flex shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-4 py-2 text-sm font-bold text-white shadow-lg shadow-orange-500/25 transition-transform hover:scale-105 whitespace-nowrap sm:px-5";
+
+function navLinkClass(active: boolean, solid: boolean) {
+  return `relative inline-flex items-center px-3 py-2 text-[13px] xl:px-3.5 xl:text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${
+    solid
+      ? active
+        ? "text-orange-500"
+        : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+      : active
+        ? "text-orange-300"
+        : "text-white/90 hover:text-white hover:bg-white/10"
+  }`;
+}
+
 export default function Navbar() {
-  const { navLinks, contact } = useContent();
+  const { navLinks, productsNav, contact } = useContent();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const productsActive = pathname === "/products";
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 30);
@@ -29,9 +47,56 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  useEffect(() => { setOpen(false); }, [pathname]);
+  useEffect(() => {
+    setOpen(false);
+    setMobileProductsOpen(false);
+  }, [pathname]);
 
   const solid = scrolled || !isHome;
+
+  function renderDesktopLink(href: string, label: string) {
+    const active = pathname === href;
+    return (
+      <Link key={href} href={href} className={navLinkClass(active, solid)}>
+        {label}
+        {active && <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-orange-500" />}
+      </Link>
+    );
+  }
+
+  function renderProductsDropdown() {
+    return (
+      <div
+        key="products-dropdown"
+        className="relative"
+        onMouseEnter={() => setProductsOpen(true)}
+        onMouseLeave={() => setProductsOpen(false)}
+      >
+        <Link href="/products" className={navLinkClass(productsActive, solid)}>
+          {productsNav.label}
+          <ChevronDown
+            size={13}
+            className={`ml-0.5 shrink-0 opacity-70 transition-transform ${productsOpen ? "rotate-180" : ""}`}
+          />
+          {productsActive && <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-orange-500" />}
+        </Link>
+
+        <div className={`absolute left-0 top-full z-50 pt-2 ${productsOpen ? "block" : "hidden"}`}>
+          <div className="min-w-[168px] overflow-hidden rounded-xl border border-gray-100 bg-white py-1 shadow-xl">
+            {productsNav.items.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <motion.nav
@@ -45,19 +110,19 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 lg:px-8">
         <Logo variant="nav" theme={solid ? "light" : "dark"} />
 
-        <div className="hidden lg:flex items-center gap-0.5">
+        <div className="hidden lg:flex items-center gap-0.5 flex-nowrap">
           {navLinks.map((l) => {
             const active = pathname === l.href;
+            if (l.href === "/services") {
+              return (
+                <span key={l.href} className="contents">
+                  {renderDesktopLink(l.href, l.label)}
+                  {renderProductsDropdown()}
+                </span>
+              );
+            }
             return (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={`relative px-3.5 py-2 text-sm font-medium rounded-lg transition-colors ${
-                  solid
-                    ? active ? "text-orange-500" : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
-                    : active ? "text-orange-300" : "text-white/90 hover:text-white hover:bg-white/10"
-                }`}
-              >
+              <Link key={l.href} href={l.href} className={navLinkClass(active, solid)}>
                 {l.label}
                 {active && <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-orange-500" />}
               </Link>
@@ -67,40 +132,104 @@ export default function Navbar() {
             href={contact.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-2 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-2 text-sm font-bold text-white shadow-lg shadow-green-500/25 hover:scale-105 hover:bg-[#20bd5a] transition-all"
+            className="ml-2 inline-flex shrink-0 items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-sm font-bold text-white shadow-lg shadow-green-500/25 transition-transform hover:scale-105 hover:bg-[#20bd5a] whitespace-nowrap sm:px-5"
           >
             <WhatsAppIcon className="h-4 w-4" />
             WhatsApp
           </a>
-          <Link href="/contact" className="ml-2 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-5 py-2 text-sm font-bold text-white shadow-lg shadow-orange-500/25 hover:scale-105 transition-transform">
+          <Link href="/contact" className={`ml-2 ${quoteButtonClass}`}>
             Get Free Quote
           </Link>
         </div>
 
-        <button onClick={() => setOpen(!open)} className={`lg:hidden p-2 rounded-lg ${solid ? "text-gray-800" : "text-white"}`} aria-label="Menu">
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        <div className="flex items-center gap-2 lg:hidden">
+          <Link href="/contact" className={quoteButtonClass}>
+            Get Free Quote
+          </Link>
+          <button
+            onClick={() => setOpen(!open)}
+            className={`p-2 rounded-lg ${solid ? "text-gray-800" : "text-white"}`}
+            aria-label="Menu"
+          >
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
         {open && (
-          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="lg:hidden bg-white border-t shadow-xl overflow-hidden">
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="lg:hidden bg-white border-t shadow-xl overflow-hidden"
+          >
             <div className="px-5 py-3 flex flex-col gap-0.5">
-              {navLinks.map((l) => (
-                <Link key={l.href} href={l.href} className={`px-4 py-2.5 rounded-lg font-medium ${pathname === l.href ? "bg-orange-50 text-orange-600" : "text-gray-700 hover:bg-blue-50"}`}>
-                  {l.label}
-                </Link>
-              ))}
+              {navLinks.map((l) => {
+                if (l.href === "/services") {
+                  return (
+                    <div key={l.href}>
+                      <Link
+                        href={l.href}
+                        className={`block px-4 py-2.5 rounded-lg font-medium ${
+                          pathname === l.href ? "bg-orange-50 text-orange-600" : "text-gray-700 hover:bg-blue-50"
+                        }`}
+                      >
+                        {l.label}
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+                        className={`mt-0.5 flex w-full items-center justify-between px-4 py-2.5 rounded-lg font-medium ${
+                          productsActive ? "bg-orange-50 text-orange-600" : "text-gray-700 hover:bg-blue-50"
+                        }`}
+                      >
+                        {productsNav.label}
+                        <ChevronDown
+                          size={16}
+                          className={`transition-transform ${mobileProductsOpen ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                      {mobileProductsOpen && (
+                        <div className="ml-4 border-l-2 border-orange-100 pl-3 py-0.5">
+                          <Link href="/products" className="block px-3 py-2 text-sm text-gray-600 hover:text-orange-600">
+                            All Products
+                          </Link>
+                          {productsNav.items.map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className="block px-3 py-2 text-sm text-gray-600 hover:text-orange-600"
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+                return (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    className={`px-4 py-2.5 rounded-lg font-medium ${
+                      pathname === l.href ? "bg-orange-50 text-orange-600" : "text-gray-700 hover:bg-blue-50"
+                    }`}
+                  >
+                    {l.label}
+                  </Link>
+                );
+              })}
               <a
                 href={contact.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-bold text-white"
+                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-bold text-white"
               >
                 <WhatsAppIcon className="h-4 w-4" />
                 WhatsApp
               </a>
-              <Link href="/contact" className="mt-2 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-6 py-3 text-center font-bold text-white">Get Free Quote</Link>
             </div>
           </motion.div>
         )}

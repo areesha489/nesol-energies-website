@@ -15,6 +15,8 @@ import {
   LogOut,
   ExternalLink,
   Calculator,
+  Package,
+  Newspaper,
 } from "lucide-react";
 
 const navItems = [
@@ -23,6 +25,8 @@ const navItems = [
   { id: "pricing", label: "Price Calculator", icon: Calculator },
   { id: "about", label: "About", icon: FileText },
   { id: "services", label: "Services", icon: Zap },
+  { id: "products", label: "Products", icon: Package },
+  { id: "blog", label: "Blog", icon: Newspaper },
   { id: "companies", label: "Companies", icon: Building2 },
   { id: "projects", label: "Projects", icon: Briefcase },
   { id: "process", label: "Process", icon: Layers },

@@ -30,15 +30,19 @@
     },
     {
       "href": "/companies",
-      "label": "Our Companies"
+      "label": "Companies"
     },
     {
       "href": "/projects",
       "label": "Projects"
     },
     {
+      "href": "/blog",
+      "label": "Blog"
+    },
+    {
       "href": "/calculator",
-      "label": "Price Calculator"
+      "label": "Calculator"
     },
     {
       "href": "/contact",
@@ -549,6 +553,18 @@
       "highlight": "Calculator",
       "subtitle": "Enter kW size and discover your estimated min–max solar installation budget.",
       "image": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80"
+    },
+    "products": {
+      "title": "Our",
+      "highlight": "Products",
+      "subtitle": "Tier-1 solar panels, inverters, and batteries — backed by Nesol warranty and support.",
+      "image": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1920&q=80"
+    },
+    "blog": {
+      "title": "Solar",
+      "highlight": "Blog",
+      "subtitle": "Latest solar news, tips, and insights from Nesol Energies.",
+      "image": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1920&q=80"
     }
   }
 }

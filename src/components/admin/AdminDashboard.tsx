@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Plus, Trash2, Star, GripVertical } from "lucide-react";
-import type { SiteContent, HeroSlide, Project, Service, Company, Testimonial, ProcessStep, PricingTier } from "@/lib/content-types";
+import type { SiteContent, HeroSlide, Project, Service, Company, Testimonial, ProcessStep, PricingTier, ProductItem, BlogPost } from "@/lib/content-types";
 import AdminShell from "./AdminShell";
 import ImageField from "./ImageField";
 import ImagesField from "./ImagesField";
@@ -67,6 +67,8 @@ export default function AdminDashboard() {
       {active === "services" && <ServicesSection content={content} update={update} />}
       {active === "companies" && <CompaniesSection content={content} update={update} />}
       {active === "projects" && <ProjectsSection content={content} update={update} />}
+      {active === "products" && <ProductsSection content={content} update={update} />}
+      {active === "blog" && <BlogSection content={content} update={update} />}
       {active === "process" && <ProcessSection content={content} update={update} />}
       {active === "testimonials" && <TestimonialsSection content={content} update={update} />}
       {active === "pages" && <PageHeadersSection content={content} update={update} />}
@@ -82,6 +84,8 @@ function OverviewSection({ content, onNavigate }: { content: SiteContent; onNavi
     { id: "pricing", label: "Price Calculator", count: content.pricingCalculator.tiers.length, color: "from-green-500 to-emerald-400" },
     { id: "hero", label: "Hero Banners", count: content.hero.slides.length, color: "from-orange-500 to-amber-400" },
     { id: "projects", label: "Projects", count: content.projects.items.length, color: "from-blue-600 to-cyan-500" },
+    { id: "products", label: "Products", count: content.products.categories.reduce((n, c) => n + c.items.length, 0), color: "from-amber-500 to-yellow-400" },
+    { id: "blog", label: "Blog Posts", count: content.blog.posts.length, color: "from-violet-500 to-purple-400" },
     { id: "services", label: "Services", count: content.services.items.length, color: "from-teal-500 to-emerald-400" },
     { id: "companies", label: "Companies", count: content.companies.items.length, color: "from-indigo-500 to-purple-500" },
     { id: "testimonials", label: "Testimonials", count: content.testimonials.items.length, color: "from-pink-500 to-rose-400" },
@@ -396,6 +400,278 @@ function ProcessSection({ content, update }: { content: SiteContent; update: (fn
           <Field label="Description" value={step.description} type="textarea" onChange={(v) => updateStep(step.id, { description: v })} />
         </SectionCard>
       ))}
+    </div>
+  );
+}
+
+function ProductsSection({ content, update }: { content: SiteContent; update: (fn: (p: SiteContent) => SiteContent) => void }) {
+  function updateProduct(catId: string, itemId: string, patch: Partial<ProductItem>) {
+    update((prev) => ({
+      ...prev,
+      products: {
+        ...prev.products,
+        categories: prev.products.categories.map((cat) =>
+          cat.id === catId
+            ? { ...cat, items: cat.items.map((item) => (item.id === itemId ? { ...item, ...patch } : item)) }
+            : cat,
+        ),
+      },
+    }));
+  }
+
+  function addProduct(catId: string) {
+    update((prev) => ({
+      ...prev,
+      products: {
+        ...prev.products,
+        categories: prev.products.categories.map((cat) =>
+          cat.id === catId
+            ? {
+                ...cat,
+                items: [
+                  ...cat.items,
+                  {
+                    id: newId(),
+                    name: "New Product",
+                    brand: "Brand",
+                    specs: "Specs here",
+                    description: "Product description",
+                    images: ["https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80"],
+                    features: ["Key feature 1", "Key feature 2", "Key feature 3"],
+                    availability: "In Stock",
+                    price: 0,
+                    priceNote: "Contact for latest price",
+                  },
+                ],
+              }
+            : cat,
+        ),
+      },
+    }));
+  }
+
+  function deleteProduct(catId: string, itemId: string) {
+    update((prev) => ({
+      ...prev,
+      products: {
+        ...prev.products,
+        categories: prev.products.categories.map((cat) =>
+          cat.id === catId ? { ...cat, items: cat.items.filter((item) => item.id !== itemId) } : cat,
+        ),
+      },
+    }));
+  }
+
+  return (
+    <div className="space-y-5">
+      <SectionCard title="Products Page Headings">
+        <Field label="Badge" value={content.products.badge} onChange={(v) => update((p) => ({ ...p, products: { ...p.products, badge: v } }))} />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Heading" value={content.products.heading} onChange={(v) => update((p) => ({ ...p, products: { ...p.products, heading: v } }))} />
+          <Field label="Highlight" value={content.products.headingHighlight} onChange={(v) => update((p) => ({ ...p, products: { ...p.products, headingHighlight: v } }))} />
+        </div>
+        <Field label="Subtitle" value={content.products.subtitle} type="textarea" onChange={(v) => update((p) => ({ ...p, products: { ...p.products, subtitle: v } }))} />
+      </SectionCard>
+
+      <SectionCard title="Navbar Dropdown">
+        <Field label="Menu Label" value={content.productsNav.label} onChange={(v) => update((p) => ({ ...p, productsNav: { ...p.productsNav, label: v } }))} />
+        {content.productsNav.items.map((item, i) => (
+          <div key={i} className="grid gap-3 sm:grid-cols-2 p-3 rounded-xl bg-gray-50">
+            <Field
+              label="Label"
+              value={item.label}
+              onChange={(v) =>
+                update((p) => {
+                  const items = [...p.productsNav.items];
+                  items[i] = { ...items[i], label: v };
+                  return { ...p, productsNav: { ...p.productsNav, items } };
+                })
+              }
+            />
+            <Field
+              label="Link"
+              value={item.href}
+              onChange={(v) =>
+                update((p) => {
+                  const items = [...p.productsNav.items];
+                  items[i] = { ...items[i], href: v };
+                  return { ...p, productsNav: { ...p.productsNav, items } };
+                })
+              }
+            />
+          </div>
+        ))}
+      </SectionCard>
+
+      {content.products.categories.map((category) => (
+        <div key={category.id} className="space-y-4">
+          <SectionCard title={`${category.title} Section`}>
+            <Field
+              label="Section Title"
+              value={category.title}
+              onChange={(v) =>
+                update((p) => ({
+                  ...p,
+                  products: {
+                    ...p.products,
+                    categories: p.products.categories.map((cat) =>
+                      cat.id === category.id ? { ...cat, title: v } : cat,
+                    ),
+                  },
+                }))
+              }
+            />
+            <Field
+              label="Section Subtitle"
+              value={category.subtitle}
+              type="textarea"
+              onChange={(v) =>
+                update((p) => ({
+                  ...p,
+                  products: {
+                    ...p.products,
+                    categories: p.products.categories.map((cat) =>
+                      cat.id === category.id ? { ...cat, subtitle: v } : cat,
+                    ),
+                  },
+                }))
+              }
+            />
+          </SectionCard>
+
+          {category.items.map((item, index) => (
+            <SectionCard key={item.id} title={`${category.title} — Product ${index + 1}`}>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => deleteProduct(category.id, item.id)}
+                  className="text-xs text-red-500 flex items-center gap-1"
+                >
+                  <Trash2 size={14} /> Delete
+                </button>
+              </div>
+              <ImagesField
+                label="Product Images (2–3 recommended)"
+                value={item.images ?? []}
+                onChange={(images) => updateProduct(category.id, item.id, { images: images.slice(0, 3) })}
+              />
+              <Field label="Name" value={item.name} onChange={(v) => updateProduct(category.id, item.id, { name: v })} />
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field label="Brand" value={item.brand} onChange={(v) => updateProduct(category.id, item.id, { brand: v })} />
+                <Field label="Specs" value={item.specs} onChange={(v) => updateProduct(category.id, item.id, { specs: v })} />
+              </div>
+              <Field label="Description" value={item.description} type="textarea" onChange={(v) => updateProduct(category.id, item.id, { description: v })} />
+              <Field
+                label="Key Features (one per line)"
+                value={item.features?.join("\n") ?? ""}
+                type="textarea"
+                rows={5}
+                onChange={(v) =>
+                  updateProduct(category.id, item.id, {
+                    features: v
+                      .split("\n")
+                      .map((s) => s.trim())
+                      .filter(Boolean),
+                  })
+                }
+              />
+              <div className="grid gap-4 sm:grid-cols-3">
+                <Field label="Availability" value={item.availability ?? "In Stock"} onChange={(v) => updateProduct(category.id, item.id, { availability: v })} />
+                <Field
+                  label="Price (PKR)"
+                  value={String(item.price ?? 0)}
+                  onChange={(v) => updateProduct(category.id, item.id, { price: Number(v.replace(/[^\d]/g, "")) || 0 })}
+                />
+                <Field label="Price Note" value={item.priceNote} onChange={(v) => updateProduct(category.id, item.id, { priceNote: v })} />
+              </div>
+            </SectionCard>
+          ))}
+
+          <button
+            type="button"
+            onClick={() => addProduct(category.id)}
+            className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-4 py-2 text-xs font-bold text-white"
+          >
+            <Plus size={14} /> Add {category.title} Product
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function BlogSection({ content, update }: { content: SiteContent; update: (fn: (p: SiteContent) => SiteContent) => void }) {
+  function updatePost(id: string, patch: Partial<BlogPost>) {
+    update((prev) => ({
+      ...prev,
+      blog: { ...prev.blog, posts: prev.blog.posts.map((post) => (post.id === id ? { ...post, ...patch } : post)) },
+    }));
+  }
+
+  return (
+    <div className="space-y-5">
+      <SectionCard title="Blog Page Headings">
+        <Field label="Badge" value={content.blog.badge} onChange={(v) => update((p) => ({ ...p, blog: { ...p.blog, badge: v } }))} />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Heading" value={content.blog.heading} onChange={(v) => update((p) => ({ ...p, blog: { ...p.blog, heading: v } }))} />
+          <Field label="Highlight" value={content.blog.headingHighlight} onChange={(v) => update((p) => ({ ...p, blog: { ...p.blog, headingHighlight: v } }))} />
+        </div>
+        <Field label="Subtitle" value={content.blog.subtitle} type="textarea" onChange={(v) => update((p) => ({ ...p, blog: { ...p.blog, subtitle: v } }))} />
+      </SectionCard>
+
+      {content.blog.posts.map((post, index) => (
+        <SectionCard key={post.id} title={`Blog Post ${index + 1}`}>
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() =>
+                update((p) => ({
+                  ...p,
+                  blog: { ...p.blog, posts: p.blog.posts.filter((item) => item.id !== post.id) },
+                }))
+              }
+              className="text-xs text-red-500 flex items-center gap-1"
+            >
+              <Trash2 size={14} /> Delete
+            </button>
+          </div>
+          <ImageField label="Cover Image" value={post.image} onChange={(v) => updatePost(post.id, { image: v })} />
+          <Field label="Title" value={post.title} onChange={(v) => updatePost(post.id, { title: v })} />
+          <Field label="Excerpt" value={post.excerpt} type="textarea" onChange={(v) => updatePost(post.id, { excerpt: v })} />
+          <Field label="Content" value={post.content} type="textarea" rows={8} onChange={(v) => updatePost(post.id, { content: v })} />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label="Date" value={post.date} onChange={(v) => updatePost(post.id, { date: v })} placeholder="YYYY-MM-DD" />
+            <Field label="Author" value={post.author} onChange={(v) => updatePost(post.id, { author: v })} />
+          </div>
+        </SectionCard>
+      ))}
+
+      <button
+        type="button"
+        onClick={() =>
+          update((p) => ({
+            ...p,
+            blog: {
+              ...p.blog,
+              posts: [
+                ...p.blog.posts,
+                {
+                  id: newId(),
+                  title: "New Blog Post",
+                  excerpt: "Short summary of the post...",
+                  content: "Full blog content here...",
+                  image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80",
+                  date: new Date().toISOString().slice(0, 10),
+                  author: "Nesol Energies",
+                },
+              ],
+            },
+          }))
+        }
+        className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-4 py-2 text-xs font-bold text-white"
+      >
+        <Plus size={14} /> Add Blog Post
+      </button>
     </div>
   );
 }

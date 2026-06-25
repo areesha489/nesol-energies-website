@@ -84,6 +84,47 @@ export interface Testimonial {
   initials: string;
 }
 
+export interface ProductItem {
+  id: string;
+  name: string;
+  brand: string;
+  specs: string;
+  description: string;
+  images: string[];
+  features: string[];
+  availability: string;
+  price: number;
+  priceNote: string;
+}
+
+export interface ProductCategory {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string;
+  items: ProductItem[];
+}
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  image: string;
+  date: string;
+  author: string;
+}
+
+export interface NavDropdownItem {
+  label: string;
+  href: string;
+}
+
+export interface ProductsNav {
+  label: string;
+  items: NavDropdownItem[];
+}
+
 export interface PageHeaderContent {
   title: string;
   highlight?: string;
@@ -188,6 +229,21 @@ export interface SiteContent {
     note: string;
     buttonText: string;
     tiers: PricingTier[];
+  };
+  productsNav: ProductsNav;
+  products: {
+    badge: string;
+    heading: string;
+    headingHighlight: string;
+    subtitle: string;
+    categories: ProductCategory[];
+  };
+  blog: {
+    badge: string;
+    heading: string;
+    headingHighlight: string;
+    subtitle: string;
+    posts: BlogPost[];
   };
   pageHeaders: Record<string, PageHeaderContent>;
 }
