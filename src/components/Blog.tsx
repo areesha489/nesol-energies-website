@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Calendar, User, ArrowRight } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { useContent } from "./ContentProvider";
@@ -47,11 +48,14 @@ export default function Blog() {
             <AnimatedSection key={post.id} delay={i * 0.06}>
               <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-100 bg-gray-50 transition-all duration-400 hover:-translate-y-1 hover:border-orange-200 hover:shadow-lg">
                 <div className="relative aspect-[16/10] overflow-hidden bg-gray-200">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={post.image}
                     alt={post.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    loading={i < 3 ? "eager" : "lazy"}
+                    unoptimized={post.image.startsWith("/uploads/")}
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-5">

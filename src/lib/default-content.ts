@@ -55,7 +55,7 @@ export const defaultSiteContent: SiteContent = {
     slides: [
       {
         id: uid(),
-        image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80",
+        image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1280&q=75&auto=format&fit=crop",
         showcase: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&q=80",
         title: "Harness the",
         highlight: "Power of Sun",
@@ -63,7 +63,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         id: uid(),
-        image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1920&q=80",
+        image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1280&q=75&auto=format&fit=crop",
         showcase: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80",
         title: "Mega-Scale",
         highlight: "Solar Parks",
@@ -71,7 +71,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         id: uid(),
-        image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1920&q=80",
+        image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1280&q=75&auto=format&fit=crop",
         showcase: "https://images.unsplash.com/photo-1558449028-b06a8d0ea4d0?w=800&q=80",
         title: "Smart Rooftop",
         highlight: "Solar Systems",
@@ -79,7 +79,7 @@ export const defaultSiteContent: SiteContent = {
       },
       {
         id: uid(),
-        image: "https://images.unsplash.com/photo-1558449028-b06a8d0ea4d0?w=1920&q=80",
+        image: "https://images.unsplash.com/photo-1558449028-b06a8d0ea4d0?w=1280&q=75&auto=format&fit=crop",
         showcase: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80",
         title: "Nesol Energies",
         highlight: "Group of Companies",
@@ -609,49 +609,49 @@ export const defaultSiteContent: SiteContent = {
       title: "About",
       highlight: "Nesol Energies",
       subtitle: "Leading the green revolution with 15+ years of renewable energy excellence.",
-      image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1920&q=80",
+      image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1280&q=75&auto=format&fit=crop",
     },
     services: {
       title: "Our",
       highlight: "Services",
       subtitle: "From consultation to installation — complete clean energy solutions.",
-      image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80",
+      image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1280&q=75&auto=format&fit=crop",
     },
     companies: {
       title: "Group of",
       highlight: "Companies",
       subtitle: "Nesol (Next Edge Solutions), Nesol Properties, Nesol Energies & Organo Mart — one family, four brands.",
-      image: "https://images.unsplash.com/photo-1497435334941-8c899ee9e9e0?w=1920&q=80",
+      image: "https://images.unsplash.com/photo-1497435334941-8c899ee9e9e0?w=1280&q=75&auto=format&fit=crop",
     },
     projects: {
       title: "Our",
       highlight: "Projects",
       subtitle: "500+ successful installations powering homes, industries, and communities.",
-      image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1920&q=80",
+      image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1280&q=75&auto=format&fit=crop",
     },
     contact: {
       title: "Contact",
       highlight: "Us",
       subtitle: "Our renewable energy experts are ready to power your journey.",
-      image: "https://images.unsplash.com/photo-1613665813447-82a78c468028?w=1920&q=80",
+      image: "https://images.unsplash.com/photo-1613665813447-82a78c468028?w=1280&q=75&auto=format&fit=crop",
     },
     calculator: {
       title: "Solar Price",
       highlight: "Calculator",
       subtitle: "Enter kW size and discover your estimated min–max solar installation budget.",
-      image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80",
+      image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1280&q=75&auto=format&fit=crop",
     },
     products: {
       title: "Our",
       highlight: "Products",
       subtitle: "Tier-1 solar panels, inverters, and batteries — backed by Nesol warranty and support.",
-      image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1920&q=80",
+      image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1280&q=75&auto=format&fit=crop",
     },
     blog: {
       title: "Solar",
       highlight: "Blog",
       subtitle: "Latest solar news, tips, and insights from Nesol Energies.",
-      image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1920&q=80",
+      image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1280&q=75&auto=format&fit=crop",
     },
   },
 };

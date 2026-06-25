@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { unstable_cache, revalidateTag } from "next/cache";
 import type { SiteContent, NavLink, Project, ProductItem } from "./content-types";
 import { defaultSiteContent } from "./default-content";
 
@@ -123,7 +124,7 @@ function mergeContent(parsed: Partial<SiteContent>): SiteContent {
   };
 }
 
-export async function getSiteContent(): Promise<SiteContent> {
+async function readSiteContent(): Promise<SiteContent> {
   try {
     const raw = await fs.readFile(CONTENT_PATH, "utf-8");
     return mergeContent(JSON.parse(raw) as Partial<SiteContent>);
@@ -133,9 +134,19 @@ export async function getSiteContent(): Promise<SiteContent> {
   }
 }
 
+const getCachedSiteContent = unstable_cache(readSiteContent, ["site-content"], {
+  revalidate: 300,
+  tags: ["site-content"],
+});
+
+export async function getSiteContent(): Promise<SiteContent> {
+  return getCachedSiteContent();
+}
+
 export async function saveSiteContent(content: SiteContent): Promise<void> {
   await fs.mkdir(path.dirname(CONTENT_PATH), { recursive: true });
   await fs.writeFile(CONTENT_PATH, JSON.stringify(content, null, 2), "utf-8");
+  revalidateTag("site-content", { expire: 0 });
 }
 
 export { CONTENT_PATH };

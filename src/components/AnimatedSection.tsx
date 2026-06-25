@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
@@ -17,7 +16,6 @@ export default function AnimatedSection({
 }: AnimatedSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -25,25 +23,39 @@ export default function AnimatedSection({
     const el = ref.current;
     if (!el) return;
 
+    const show = () => setVisible(true);
+
     const rect = el.getBoundingClientRect();
     if (rect.top < window.innerHeight - 80 && rect.bottom > 0) {
-      setVisible(true);
+      show();
+      return;
     }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          show();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "-80px", threshold: 0.1 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
   }, [pathname]);
 
-  useEffect(() => {
-    if (isInView) setVisible(true);
-  }, [isInView]);
+  const delayMs = Math.round(delay * 1000);
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={visible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
+      className={`transition-all duration-700 ease-out will-change-transform ${
+        visible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+      } ${className}`}
+      style={{ transitionDelay: visible ? `${delayMs}ms` : "0ms" }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

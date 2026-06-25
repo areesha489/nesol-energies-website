@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView } from "framer-motion";
 
 interface CounterProps {
   end: number;
@@ -11,11 +10,29 @@ interface CounterProps {
 
 export default function Counter({ end, suffix = "", duration = 2000 }: CounterProps) {
   const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const ref = useRef<HTMLSpanElement>(null);
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    if (!isInView) return;
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!started) return;
 
     let start = 0;
     const increment = end / (duration / 16);
@@ -30,7 +47,7 @@ export default function Counter({ end, suffix = "", duration = 2000 }: CounterPr
     }, 16);
 
     return () => clearInterval(timer);
-  }, [isInView, end, duration]);
+  }, [started, end, duration]);
 
   return (
     <span ref={ref}>

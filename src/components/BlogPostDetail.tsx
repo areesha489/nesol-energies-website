@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Calendar, User, ArrowLeft } from "lucide-react";
 import type { BlogPost } from "@/lib/content-types";
 
@@ -43,9 +44,16 @@ export default function BlogPostDetail({ post }: { post: BlogPost }) {
 
         <h1 className="mt-4 font-heading text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">{post.title}</h1>
 
-        <div className="mt-6 overflow-hidden rounded-2xl bg-gray-100">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={post.image} alt={post.title} className="w-full max-h-[420px] object-cover" />
+        <div className="relative mt-6 aspect-[16/9] max-h-[420px] overflow-hidden rounded-2xl bg-gray-100">
+          <Image
+            src={post.image}
+            alt={post.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 768px"
+            priority
+            unoptimized={post.image.startsWith("/uploads/")}
+          />
         </div>
 
         <div className="mt-8 space-y-4 text-gray-700 leading-relaxed">

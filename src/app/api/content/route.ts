@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { getSiteContent, saveSiteContent } from "@/lib/content-store";
 import { isAuthenticated } from "@/lib/auth";
 import type { SiteContent } from "@/lib/content-types";
@@ -17,6 +17,7 @@ export async function PUT(request: Request) {
   try {
     const content = (await request.json()) as SiteContent;
     await saveSiteContent(content);
+    revalidateTag("site-content", { expire: 0 });
     revalidatePath("/", "layout");
     return NextResponse.json({ success: true });
   } catch {

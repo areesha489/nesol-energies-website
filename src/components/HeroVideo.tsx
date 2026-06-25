@@ -1,16 +1,15 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const HERO_VIDEO = "/videos/solar-hero.mp4";
 
-export default function HeroVideo() {
+export default function HeroVideo({ poster }: { poster?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
-    video.load();
+    if (!video || !window.matchMedia("(min-width: 1024px)").matches) return;
     video.play().catch(() => {});
   }, []);
 
@@ -21,8 +20,8 @@ export default function HeroVideo() {
       muted
       loop
       playsInline
-      preload="auto"
-      poster="https://i.pinimg.com/736x/c1/83/f3/c183f3df41108735f6bff410b097756f.jpg"
+      preload="none"
+      poster={poster}
       className="h-full w-full object-cover"
       aria-label="Solar panel installation video"
     >

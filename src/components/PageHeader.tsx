@@ -1,4 +1,4 @@
-"use client";
+import Image from "next/image";
 
 interface Props {
   title: string;
@@ -9,11 +9,21 @@ interface Props {
 
 export default function PageHeader({ title, highlight, subtitle, image }: Props) {
   return (
-    <section
-      className="relative h-[260px] sm:h-[300px] overflow-hidden bg-[#0a1628] bg-cover bg-center"
-      style={image ? { backgroundImage: `url(${image})` } : undefined}
-    >
-      {!image && <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] to-[#0056b3]" />}
+    <section className="relative h-[260px] sm:h-[300px] overflow-hidden bg-[#0a1628]">
+      {image ? (
+        <Image
+          src={image}
+          alt=""
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+          fetchPriority="high"
+          unoptimized={image.startsWith("/uploads/")}
+        />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] to-[#0056b3]" />
+      )}
       {image && (
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/95 via-[#0a1628]/75 to-[#0056b3]/50" />
       )}

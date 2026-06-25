@@ -1,12 +1,21 @@
+import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import HeroSlider from "@/components/HeroSlider";
-import About from "@/components/About";
-import Services from "@/components/Services";
-import Companies from "@/components/Companies";
-import Projects from "@/components/Projects";
-import Process from "@/components/Process";
-import PricingCalculator from "@/components/PricingCalculator";
-import Testimonials from "@/components/Testimonials";
-import CTABanner from "@/components/CTABanner";
+
+const About = dynamic(() => import("@/components/About"));
+const Services = dynamic(() => import("@/components/Services"));
+const Companies = dynamic(() => import("@/components/Companies"));
+const Projects = dynamic(() => import("@/components/Projects"));
+const Process = dynamic(() => import("@/components/Process"));
+const PricingCalculator = dynamic(() => import("@/components/PricingCalculator"));
+const Testimonials = dynamic(() => import("@/components/Testimonials"));
+const CTABanner = dynamic(() => import("@/components/CTABanner"));
+
+export const metadata: Metadata = {
+  title: "Nesol Energies | Solar & Renewable Energy Pakistan",
+  description:
+    "Cut electricity bills with premium solar panels, inverters, and batteries. Free site assessment across Pakistan.",
+};
 
 export default function Home() {
   return (
