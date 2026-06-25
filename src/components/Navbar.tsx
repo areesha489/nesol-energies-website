@@ -16,7 +16,7 @@ function WhatsAppIcon({ className }: { className?: string }) {
 }
 
 const quoteButtonClass =
-  "inline-flex shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-4 py-2 text-sm font-bold text-white shadow-lg shadow-orange-500/25 transition-transform hover:scale-105 whitespace-nowrap sm:px-5";
+  "inline-flex items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-orange-500/25 transition-transform hover:scale-105 whitespace-nowrap";
 
 function navLinkClass(active: boolean, solid: boolean) {
   return `relative inline-flex items-center px-3 py-2 text-[13px] xl:px-3.5 xl:text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${
@@ -51,7 +51,14 @@ export default function Navbar() {
     setMobileProductsOpen(false);
   }, [pathname]);
 
-  const solid = scrolled || !isHome;
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  const solid = scrolled || !isHome || open;
 
   function renderDesktopLink(href: string, label: string) {
     const active = pathname === href;
@@ -106,13 +113,13 @@ export default function Navbar() {
     <nav
       aria-label="Main navigation"
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-        solid ? "bg-white/95 backdrop-blur-xl shadow-md py-1.5" : "bg-gradient-to-b from-black/60 to-transparent py-3"
+        solid ? "bg-white/95 backdrop-blur-xl shadow-md py-2" : "bg-gradient-to-b from-black/70 to-transparent py-2.5 sm:py-3"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 lg:px-8">
+      <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 sm:px-5 lg:px-8">
         <Logo variant="nav" theme={solid ? "light" : "dark"} />
 
-        <div className="hidden lg:flex items-center gap-0.5 flex-nowrap">
+        <div className="hidden lg:flex flex-1 items-center justify-end gap-0.5 flex-nowrap">
           {navLinks.map((l) => {
             const active = pathname === l.href;
             if (l.href === "/services") {
@@ -144,36 +151,47 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <div className="flex items-center gap-2 lg:hidden">
-          <Link href="/contact" className={quoteButtonClass}>
-            Get Free Quote
-          </Link>
-          <button
-            type="button"
-            onClick={() => setOpen(!open)}
-            className={`p-2 rounded-lg ${solid ? "text-gray-800" : "text-white"}`}
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-          >
-            {open ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => setOpen(!open)}
+          className={`ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-lg lg:hidden ${
+            solid ? "text-gray-800 hover:bg-gray-100" : "text-white hover:bg-white/10"
+          }`}
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+        >
+          {open ? <X size={22} /> : <Menu size={22} />}
+        </button>
       </div>
 
       <div
         id="mobile-nav"
-        className={`lg:hidden overflow-hidden border-t bg-white shadow-xl transition-all duration-300 ${
-          open ? "max-h-[85vh] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
+        className={`lg:hidden overflow-y-auto border-t bg-white shadow-xl transition-all duration-300 ${
+          open ? "max-h-[calc(100dvh-4rem)] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
         }`}
       >
-        <div className="px-5 py-3 flex flex-col gap-0.5">
+        <div className="px-4 py-4 flex flex-col gap-1 sm:px-5">
+          <Link href="/contact" onClick={() => setOpen(false)} className={`mb-2 w-full ${quoteButtonClass} py-3`}>
+            Get Free Quote
+          </Link>
+          <a
+            href={contact.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mb-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-bold text-white"
+          >
+            <WhatsAppIcon className="h-4 w-4" />
+            WhatsApp
+          </a>
+
           {navLinks.map((l) => {
             if (l.href === "/services") {
               return (
                 <div key={l.href}>
                   <Link
                     href={l.href}
+                    onClick={() => setOpen(false)}
                     className={`block px-4 py-2.5 rounded-lg font-medium ${
                       pathname === l.href ? "bg-orange-50 text-orange-600" : "text-gray-700 hover:bg-blue-50"
                     }`}
@@ -198,13 +216,14 @@ export default function Navbar() {
                   </button>
                   {mobileProductsOpen && (
                     <div className="ml-4 border-l-2 border-orange-100 pl-3 py-0.5">
-                      <Link href="/products" className="block px-3 py-2 text-sm text-gray-600 hover:text-orange-600">
+                      <Link href="/products" onClick={() => setOpen(false)} className="block px-3 py-2 text-sm text-gray-600 hover:text-orange-600">
                         All Products
                       </Link>
                       {productsNav.items.map((item) => (
                         <Link
                           key={item.href}
                           href={item.href}
+                          onClick={() => setOpen(false)}
                           className="block px-3 py-2 text-sm text-gray-600 hover:text-orange-600"
                         >
                           {item.label}
@@ -219,6 +238,7 @@ export default function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
+                onClick={() => setOpen(false)}
                 className={`px-4 py-2.5 rounded-lg font-medium ${
                   pathname === l.href ? "bg-orange-50 text-orange-600" : "text-gray-700 hover:bg-blue-50"
                 }`}
@@ -227,15 +247,6 @@ export default function Navbar() {
               </Link>
             );
           })}
-          <a
-            href={contact.whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-bold text-white"
-          >
-            <WhatsAppIcon className="h-4 w-4" />
-            WhatsApp
-          </a>
         </div>
       </div>
     </nav>

@@ -9,10 +9,10 @@ const sizes: Record<
   { icon: string; title: string; subtitle: string; gap: string }
 > = {
   nav: {
-    icon: "h-[1.9rem] w-auto md:h-[2.05rem]",
-    title: "text-[1.05rem] md:text-[1.15rem]",
-    subtitle: "text-[0.58rem] md:text-[0.62rem]",
-    gap: "gap-2.5",
+    icon: "h-8 w-auto sm:h-[1.9rem] md:h-[2.05rem]",
+    title: "text-sm sm:text-[1.05rem] md:text-[1.15rem]",
+    subtitle: "hidden min-[400px]:block text-[0.5rem] sm:text-[0.58rem] md:text-[0.62rem]",
+    gap: "gap-2 sm:gap-2.5",
   },
   footer: {
     icon: "h-[2.05rem] w-auto",
@@ -53,14 +53,14 @@ export default function Logo({
         aria-hidden
         priority={variant === "nav"}
       />
-      <div className="flex flex-col justify-center leading-none">
+      <div className="flex min-w-0 flex-1 flex-col justify-center leading-none overflow-hidden">
         <span
-          className={`font-heading font-bold uppercase tracking-[0.06em] ${s.title} ${titleColor}`}
+          className={`font-heading font-bold uppercase tracking-[0.06em] truncate ${s.title} ${titleColor}`}
         >
           Nesol Energies
         </span>
         <span
-          className={`mt-1 font-heading font-semibold uppercase tracking-[0.22em] ${s.subtitle} ${subtitleColor}`}
+          className={`mt-0.5 sm:mt-1 font-heading font-semibold uppercase tracking-[0.22em] truncate ${s.subtitle} ${subtitleColor}`}
         >
           Group of Companies
         </span>
@@ -69,7 +69,7 @@ export default function Logo({
   );
 
   return href ? (
-    <Link href={href} className="inline-flex shrink-0" aria-label="Nesol Energies — Home">
+    <Link href={href} className="inline-flex min-w-0 max-w-[58vw] sm:max-w-none shrink" aria-label="Nesol Energies — Home">
       {content}
     </Link>
   ) : (
