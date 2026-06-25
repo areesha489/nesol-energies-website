@@ -28,7 +28,6 @@ function ProductCard({ item, categorySlug }: { item: ProductItem; categorySlug: 
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
               sizes="(max-width:640px) 50vw, 25vw"
-              unoptimized={cover.startsWith("/uploads/")}
             />
           ) : (
             <div className="flex h-full items-center justify-center text-xs text-gray-400">No image</div>

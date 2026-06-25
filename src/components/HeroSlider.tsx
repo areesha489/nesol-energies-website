@@ -45,7 +45,7 @@ export default function HeroSlider() {
   }, [current, heroSlides.length]);
 
   return (
-    <section className="relative h-[90vh] min-h-[580px] max-h-[860px] overflow-hidden bg-[#0a1628]">
+    <section className="relative h-[90vh] min-h-[580px] max-h-[860px] overflow-hidden bg-[#0a1628]" aria-roledescription="carousel" aria-label="Hero slides">
       <div className="absolute inset-0">
         {heroSlides.map((s, i) => {
           if (!visibleSlideIndexes.has(i)) return null;
@@ -61,7 +61,6 @@ export default function HeroSlider() {
                 fetchPriority={i === 0 ? "high" : "auto"}
                 loading={i === 0 ? "eager" : "lazy"}
                 sizes="100vw"
-                unoptimized={s.image.startsWith("/uploads/")}
               />
             </div>
           );
@@ -152,7 +151,7 @@ export default function HeroSlider() {
                 <div className="font-heading text-xl font-bold text-white sm:text-2xl">
                   <Counter end={s.value} suffix={s.suffix} />
                 </div>
-                <div className="text-[11px] text-gray-400">{s.label}</div>
+                <div className="text-[11px] text-gray-300">{s.label}</div>
               </div>
             ))}
           </div>

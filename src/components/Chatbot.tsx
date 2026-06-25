@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X } from "lucide-react";
 import { useContent } from "./ContentProvider";
 
@@ -102,15 +101,12 @@ export default function Chatbot() {
 
   return (
     <>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.25 }}
-            className="fixed bottom-[9rem] right-5 z-50 flex h-[min(520px,calc(100vh-12rem))] w-[min(400px,calc(100vw-40px))] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0a1628] shadow-2xl shadow-black/40"
-          >
+      {open && (
+        <div
+          role="dialog"
+          aria-label="Nesol Energies chat support"
+          className="fixed bottom-[9rem] right-5 z-50 flex h-[min(520px,calc(100vh-12rem))] w-[min(400px,calc(100vw-40px))] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0a1628] shadow-2xl shadow-black/40 animate-fade-in"
+        >
             <div className="relative shrink-0 bg-gradient-to-r from-[#0d2137] to-[#0a1628] px-4 py-4 border-b border-white/10">
               <div className="absolute top-0 right-0 h-24 w-24 rounded-full bg-orange-500/10 blur-2xl" />
               <div className="relative flex items-center justify-between">
@@ -172,12 +168,14 @@ export default function Chatbot() {
               <div className="flex gap-2">
                 <input
                   ref={inputRef}
+                  id="chatbot-message"
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Apna sawal likhein..."
                   disabled={loading}
-                  className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-orange-400/50 focus:outline-none focus:ring-2 focus:ring-orange-500/20 disabled:opacity-50"
+                  aria-label="Your message"
+                  className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-gray-400 focus:border-orange-400/50 focus:outline-none focus:ring-2 focus:ring-orange-500/20 disabled:opacity-50"
                 />
                 <button
                   type="submit"
@@ -192,23 +190,22 @@ export default function Chatbot() {
                 Official quote ke liye contact karein: {contact.phone}
               </p>
             </form>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
 
-      <motion.button
+      <button
         type="button"
         onClick={toggleChat}
-        whileTap={{ scale: 0.95 }}
-        className={`fixed bottom-6 right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full shadow-xl transition-all hover:scale-110 ${
+        className={`fixed bottom-6 right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full shadow-xl transition-all hover:scale-110 active:scale-95 ${
           open
             ? "bg-white/10 backdrop-blur-md border border-white/20 text-white"
             : "bg-gradient-to-r from-orange-500 to-amber-400 text-white shadow-orange-500/30"
         }`}
         aria-label={open ? "Close chat" : "Open chat"}
+        aria-expanded={open}
       >
         {open ? <X size={20} /> : <MessageCircle size={20} />}
-      </motion.button>
+      </button>
     </>
   );
 }

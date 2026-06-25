@@ -52,7 +52,6 @@ export default function BlogPostDetail({ post }: { post: BlogPost }) {
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 768px"
             priority
-            unoptimized={post.image.startsWith("/uploads/")}
           />
         </div>
 

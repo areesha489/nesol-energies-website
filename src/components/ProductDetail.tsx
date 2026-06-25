@@ -36,7 +36,6 @@ function RelatedProductCard({ item }: { item: ProductItem }) {
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width:640px) 50vw, 25vw"
-            unoptimized={cover.startsWith("/uploads/")}
           />
         ) : (
           <div className="flex h-full items-center justify-center text-xs text-gray-400">No image</div>
@@ -114,7 +113,6 @@ export default function ProductDetail({
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width:1024px) 100vw, 50vw"
                     priority
-                    unoptimized={activeImage.startsWith("/uploads/")}
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center text-sm text-gray-400">No image</div>
@@ -133,6 +131,7 @@ export default function ProductDetail({
                       key={`${img}-${i}`}
                       type="button"
                       onClick={() => setActiveIndex(i)}
+                      aria-label={`View ${product.name} image ${i + 1}`}
                       className={`relative aspect-square overflow-hidden rounded-xl border-2 transition-all ${
                         i === activeIndex
                           ? "border-orange-500 ring-2 ring-orange-200"
@@ -145,7 +144,6 @@ export default function ProductDetail({
                         fill
                         className="object-cover"
                         sizes="100px"
-                        unoptimized={img.startsWith("/uploads/")}
                       />
                     </button>
                   ))}
@@ -160,9 +158,9 @@ export default function ProductDetail({
               </h1>
 
               <div className="mt-3 flex flex-wrap items-center gap-3">
-                <div className="flex items-center gap-0.5 text-amber-400">
+                <div className="flex items-center gap-0.5 text-amber-400" aria-label="5 star rating">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={14} fill="currentColor" />
+                    <Star key={i} size={14} fill="currentColor" aria-hidden="true" />
                   ))}
                 </div>
                 <span className="text-xs text-gray-500">Tier-1 verified product</span>

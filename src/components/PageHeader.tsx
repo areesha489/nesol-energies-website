@@ -19,7 +19,6 @@ export default function PageHeader({ title, highlight, subtitle, image }: Props)
           sizes="100vw"
           priority
           fetchPriority="high"
-          unoptimized={image.startsWith("/uploads/")}
         />
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] to-[#0056b3]" />

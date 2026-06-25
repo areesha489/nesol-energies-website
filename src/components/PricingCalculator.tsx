@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   Calculator,
   ArrowRight,
@@ -158,16 +157,8 @@ export default function PricingCalculator({ id = "calculator" }: { id?: string }
                     <span className="text-xs font-bold uppercase tracking-widest">Estimated Budget</span>
                   </div>
 
-                  <AnimatePresence mode="wait">
-                    {result ? (
-                      <motion.div
-                        key={`${result.kw}-${result.min}-${result.max}`}
-                        initial={false}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -8 }}
-                        transition={{ duration: 0.35 }}
-                        className="flex-1 flex flex-col gap-4"
-                      >
+                  {result ? (
+                    <div key={`${result.kw}-${result.min}-${result.max}`} className="flex-1 flex flex-col gap-4">
                         <div className="rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-600/10 border border-cyan-400/20 p-5 sm:p-6">
                           <p className="text-xs font-bold uppercase tracking-wider text-cyan-300/90">
                             {pricingCalculator.minLabel}
@@ -180,14 +171,12 @@ export default function PricingCalculator({ id = "calculator" }: { id?: string }
 
                         <div className="relative px-1">
                           <div className="h-2 overflow-hidden rounded-full bg-white/10">
-                            <motion.div
-                              initial={false}
-                              animate={{ width: `${rangePercent}%` }}
-                              transition={{ duration: 0.6, ease: "easeOut" }}
-                              className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-orange-400"
+                            <div
+                              className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-orange-400 transition-all duration-500 ease-out"
+                              style={{ width: `${rangePercent}%` }}
                             />
                           </div>
-                          <div className="mt-2 flex justify-between text-[10px] font-semibold uppercase tracking-wide text-gray-500">
+                          <div className="mt-2 flex justify-between text-[10px] font-semibold uppercase tracking-wide text-gray-300">
                             <span>Low</span>
                             <span className="text-orange-300">{result.kw} kW System</span>
                             <span>High</span>
@@ -209,19 +198,14 @@ export default function PricingCalculator({ id = "calculator" }: { id?: string }
                             * Interpolated from nearest kW rates
                           </p>
                         )}
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        initial={false}
-                        animate={{ opacity: 1 }}
-                        className="flex-1 flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 bg-white/5 p-8 text-center"
-                      >
-                        <Calculator size={40} className="text-white/20 mb-3" />
-                        <p className="text-sm text-gray-400">Enter a valid kW value</p>
-                        <p className="mt-1 text-xs text-gray-600">e.g. 3, 5, or 10</p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                    </div>
+                  ) : (
+                    <div className="flex-1 flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 bg-white/5 p-8 text-center">
+                      <Calculator size={40} className="text-white/20 mb-3" aria-hidden="true" />
+                      <p className="text-sm text-gray-300">Enter a valid kW value</p>
+                      <p className="mt-1 text-xs text-gray-400">e.g. 3, 5, or 10</p>
+                    </div>
+                  )}
 
                   <Link
                     href="/contact"

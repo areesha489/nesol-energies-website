@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
+
 import HeroSlider from "@/components/HeroSlider";
 
 const About = dynamic(() => import("@/components/About"));
@@ -11,11 +12,13 @@ const PricingCalculator = dynamic(() => import("@/components/PricingCalculator")
 const Testimonials = dynamic(() => import("@/components/Testimonials"));
 const CTABanner = dynamic(() => import("@/components/CTABanner"));
 
-export const metadata: Metadata = {
-  title: "Nesol Energies | Solar & Renewable Energy Pakistan",
-  description:
-    "Cut electricity bills with premium solar panels, inverters, and batteries. Free site assessment across Pakistan.",
-};
+import { createPageMetadata } from "@/lib/page-metadata";
+
+export const metadata = createPageMetadata(
+  "/",
+  "Nesol Energies | Solar & Renewable Energy Pakistan",
+  "Cut electricity bills with premium solar panels, inverters, and batteries. Free site assessment across Pakistan.",
+);
 
 export default function Home() {
   return (

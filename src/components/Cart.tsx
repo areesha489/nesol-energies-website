@@ -72,7 +72,6 @@ export default function Cart() {
                       fill
                       className="object-cover"
                       sizes="96px"
-                      unoptimized={item.image.startsWith("/uploads/")}
                     />
                   ) : (
                     <div className="flex h-full items-center justify-center text-xs text-gray-400">No image</div>

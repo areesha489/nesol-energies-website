@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Logo from "./Logo";
 import { useContent } from "./ContentProvider";
@@ -27,7 +26,7 @@ function navLinkClass(active: boolean, solid: boolean) {
         : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
       : active
         ? "text-orange-300"
-        : "text-white/90 hover:text-white hover:bg-white/10"
+        : "text-white hover:text-white hover:bg-white/10"
   }`;
 }
 
@@ -43,7 +42,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 30);
-    window.addEventListener("scroll", fn);
+    window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
@@ -71,12 +70,17 @@ export default function Navbar() {
         className="relative"
         onMouseEnter={() => setProductsOpen(true)}
         onMouseLeave={() => setProductsOpen(false)}
+        onFocus={() => setProductsOpen(true)}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget as Node)) setProductsOpen(false);
+        }}
       >
-        <Link href="/products" className={navLinkClass(productsActive, solid)}>
+        <Link href="/products" className={navLinkClass(productsActive, solid)} aria-haspopup="true" aria-expanded={productsOpen}>
           {productsNav.label}
           <ChevronDown
             size={13}
             className={`ml-0.5 shrink-0 opacity-70 transition-transform ${productsOpen ? "rotate-180" : ""}`}
+            aria-hidden="true"
           />
           {productsActive && <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-orange-500" />}
         </Link>
@@ -99,11 +103,9 @@ export default function Navbar() {
   }
 
   return (
-    <motion.nav
-      initial={false}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-400 ${
+    <nav
+      aria-label="Main navigation"
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         solid ? "bg-white/95 backdrop-blur-xl shadow-md py-1.5" : "bg-gradient-to-b from-black/60 to-transparent py-3"
       }`}
     >
@@ -147,93 +149,95 @@ export default function Navbar() {
             Get Free Quote
           </Link>
           <button
+            type="button"
             onClick={() => setOpen(!open)}
             className={`p-2 rounded-lg ${solid ? "text-gray-800" : "text-white"}`}
-            aria-label="Menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
           >
             {open ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="lg:hidden bg-white border-t shadow-xl overflow-hidden"
-          >
-            <div className="px-5 py-3 flex flex-col gap-0.5">
-              {navLinks.map((l) => {
-                if (l.href === "/services") {
-                  return (
-                    <div key={l.href}>
-                      <Link
-                        href={l.href}
-                        className={`block px-4 py-2.5 rounded-lg font-medium ${
-                          pathname === l.href ? "bg-orange-50 text-orange-600" : "text-gray-700 hover:bg-blue-50"
-                        }`}
-                      >
-                        {l.label}
-                      </Link>
-                      <button
-                        type="button"
-                        onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
-                        className={`mt-0.5 flex w-full items-center justify-between px-4 py-2.5 rounded-lg font-medium ${
-                          productsActive ? "bg-orange-50 text-orange-600" : "text-gray-700 hover:bg-blue-50"
-                        }`}
-                      >
-                        {productsNav.label}
-                        <ChevronDown
-                          size={16}
-                          className={`transition-transform ${mobileProductsOpen ? "rotate-180" : ""}`}
-                        />
-                      </button>
-                      {mobileProductsOpen && (
-                        <div className="ml-4 border-l-2 border-orange-100 pl-3 py-0.5">
-                          <Link href="/products" className="block px-3 py-2 text-sm text-gray-600 hover:text-orange-600">
-                            All Products
-                          </Link>
-                          {productsNav.items.map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              className="block px-3 py-2 text-sm text-gray-600 hover:text-orange-600"
-                            >
-                              {item.label}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-                return (
+      <div
+        id="mobile-nav"
+        className={`lg:hidden overflow-hidden border-t bg-white shadow-xl transition-all duration-300 ${
+          open ? "max-h-[85vh] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
+        }`}
+      >
+        <div className="px-5 py-3 flex flex-col gap-0.5">
+          {navLinks.map((l) => {
+            if (l.href === "/services") {
+              return (
+                <div key={l.href}>
                   <Link
-                    key={l.href}
                     href={l.href}
-                    className={`px-4 py-2.5 rounded-lg font-medium ${
+                    className={`block px-4 py-2.5 rounded-lg font-medium ${
                       pathname === l.href ? "bg-orange-50 text-orange-600" : "text-gray-700 hover:bg-blue-50"
                     }`}
                   >
                     {l.label}
                   </Link>
-                );
-              })}
-              <a
-                href={contact.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-bold text-white"
+                  <button
+                    type="button"
+                    onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+                    className={`mt-0.5 flex w-full items-center justify-between px-4 py-2.5 rounded-lg font-medium ${
+                      productsActive ? "bg-orange-50 text-orange-600" : "text-gray-700 hover:bg-blue-50"
+                    }`}
+                    aria-label="Products submenu"
+                    aria-expanded={mobileProductsOpen}
+                  >
+                    {productsNav.label}
+                    <ChevronDown
+                      size={16}
+                      className={`transition-transform ${mobileProductsOpen ? "rotate-180" : ""}`}
+                      aria-hidden="true"
+                    />
+                  </button>
+                  {mobileProductsOpen && (
+                    <div className="ml-4 border-l-2 border-orange-100 pl-3 py-0.5">
+                      <Link href="/products" className="block px-3 py-2 text-sm text-gray-600 hover:text-orange-600">
+                        All Products
+                      </Link>
+                      {productsNav.items.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className="block px-3 py-2 text-sm text-gray-600 hover:text-orange-600"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={`px-4 py-2.5 rounded-lg font-medium ${
+                  pathname === l.href ? "bg-orange-50 text-orange-600" : "text-gray-700 hover:bg-blue-50"
+                }`}
               >
-                <WhatsAppIcon className="h-4 w-4" />
-                WhatsApp
-              </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+                {l.label}
+              </Link>
+            );
+          })}
+          <a
+            href={contact.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-bold text-white"
+          >
+            <WhatsAppIcon className="h-4 w-4" />
+            WhatsApp
+          </a>
+        </div>
+      </div>
+    </nav>
   );
 }

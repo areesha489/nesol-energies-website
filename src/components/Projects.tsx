@@ -34,7 +34,6 @@ function ProjectCard({ project }: { project: Project }) {
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width:768px) 100vw, 33vw"
-            unoptimized={current.startsWith("/uploads/")}
           />
         ) : (
           <div className="flex h-full items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-50 text-xs font-medium text-gray-400">

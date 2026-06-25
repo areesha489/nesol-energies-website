@@ -26,7 +26,6 @@ export default function About({ preview = false }: { preview?: boolean }) {
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 50vw"
-                    unoptimized={about.image.startsWith("/uploads/")}
                   />
                 </div>
               </div>

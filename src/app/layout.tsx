@@ -33,6 +33,14 @@ export const metadata: Metadata = {
     title: "Nesol Energies | Renewable Energy Solutions",
     description:
       "Premium solar panels, inverters, and renewable energy solutions across Pakistan.",
+    images: [
+      {
+        url: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=75&auto=format&fit=crop",
+        width: 1200,
+        height: 630,
+        alt: "Nesol Energies solar installation",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -49,11 +57,28 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Nesol Energies",
+    url: siteUrl,
+    logo: `${siteUrl}/company-profile.pdf`,
+    description:
+      "Premium solar panels, inverters, and renewable energy solutions across Pakistan.",
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+92-339-0007944",
+      contactType: "customer service",
+      areaServed: "PK",
+    },
+  };
+
   return (
     <html lang="en" className={`${rajdhani.variable} ${inter.variable}`}>
       <head>
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className="min-h-screen antialiased" suppressHydrationWarning>
         {children}

@@ -55,7 +55,6 @@ export default function Blog() {
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     loading={i < 3 ? "eager" : "lazy"}
-                    unoptimized={post.image.startsWith("/uploads/")}
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-5">
@@ -76,8 +75,9 @@ export default function Blog() {
                   <Link
                     href={`/blog/${post.id}`}
                     className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-orange-500 group-hover:gap-2 transition-all"
+                    aria-label={`Read more: ${post.title}`}
                   >
-                    Read More <ArrowRight size={14} />
+                    Read More <ArrowRight size={14} aria-hidden="true" />
                   </Link>
                 </div>
               </article>

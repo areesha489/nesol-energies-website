@@ -1,13 +1,16 @@
-import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import DynamicPageHeader from "@/components/DynamicPageHeader";
 import Projects from "@/components/Projects";
-import Testimonials from "@/components/Testimonials";
 import CTABanner from "@/components/CTABanner";
+import { createPageMetadata } from "@/lib/page-metadata";
 
-export const metadata: Metadata = {
-  title: "Projects | Nesol Energies",
-  description: "Explore Nesol Energies success stories — solar parks, rooftops, and industrial projects.",
-};
+const Testimonials = dynamic(() => import("@/components/Testimonials"));
+
+export const metadata = createPageMetadata(
+  "/projects",
+  "Projects | Nesol Energies",
+  "Explore Nesol Energies success stories — solar parks, rooftops, and industrial projects.",
+);
 
 export default function ProjectsPage() {
   return (
