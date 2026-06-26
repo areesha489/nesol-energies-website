@@ -3,7 +3,9 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+import { getGaMeasurementId } from "@/lib/analytics";
+
+const GA_ID = getGaMeasurementId();
 
 declare global {
   interface Window {
