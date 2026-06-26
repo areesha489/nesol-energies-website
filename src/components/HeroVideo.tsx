@@ -9,7 +9,7 @@ export default function HeroVideo() {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !window.matchMedia("(min-width: 1024px)").matches) return;
     video.play().catch(() => undefined);
   }, []);
 
@@ -20,7 +20,7 @@ export default function HeroVideo() {
       muted
       loop
       playsInline
-      preload="metadata"
+      preload="auto"
       src={HERO_VIDEO}
       className="absolute inset-0 h-full w-full object-cover"
       aria-label="Solar panel installation video"

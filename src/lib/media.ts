@@ -30,7 +30,7 @@ export const DEFAULT_HERO_SLIDE_IMAGES = [
 ];
 
 export function uploadExists(url: string) {
-  if (!url.startsWith("/uploads/")) return true;
+  if (!url.startsWith("/uploads/") && !url.startsWith("/images/")) return true;
   const filePath = path.join(process.cwd(), "public", url.replace(/^\//, ""));
   return fs.existsSync(filePath);
 }

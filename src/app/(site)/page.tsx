@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 
 import HeroSlider from "@/components/HeroSlider";
+import HeroImagePreload from "@/components/HeroImagePreload";
 
 const About = dynamic(() => import("@/components/About"));
 const Services = dynamic(() => import("@/components/Services"));
@@ -23,6 +24,7 @@ export const metadata = createPageMetadata(
 export default function Home() {
   return (
     <>
+      <HeroImagePreload />
       <HeroSlider />
       <About preview />
       <Services preview />

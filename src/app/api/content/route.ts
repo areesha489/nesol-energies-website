@@ -4,6 +4,8 @@ import { getSiteContent, saveSiteContent } from "@/lib/content-store";
 import { isAuthenticated } from "@/lib/auth";
 import type { SiteContent } from "@/lib/content-types";
 
+export const dynamic = "force-dynamic";
+
 const REVALIDATE_PATHS = [
   "/",
   "/about",
@@ -29,7 +31,7 @@ export async function PUT(request: Request) {
   try {
     const content = (await request.json()) as SiteContent;
     await saveSiteContent(content);
-    revalidateTag("site-content", { expire: 0 });
+    revalidateTag("site-content");
     for (const route of REVALIDATE_PATHS) {
       revalidatePath(route, "layout");
     }

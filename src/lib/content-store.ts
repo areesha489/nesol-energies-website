@@ -174,10 +174,13 @@ const getCachedSiteContent = unstable_cache(readSiteContent, ["site-content"], {
 });
 
 export async function getSiteContent(): Promise<SiteContent> {
+  if (process.env.VERCEL === "1") {
+    return readSiteContent();
+  }
   return getCachedSiteContent();
 }
 
 export async function saveSiteContent(content: SiteContent): Promise<void> {
   await writeContentRaw(JSON.stringify(content, null, 2));
-  revalidateTag("site-content", { expire: 0 });
+  revalidateTag("site-content");
 }

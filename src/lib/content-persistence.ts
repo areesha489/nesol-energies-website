@@ -75,7 +75,26 @@ async function readFromFilesystem(): Promise<string | null> {
 }
 
 async function readFromGithub(): Promise<string | null> {
-  const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${GITHUB_CONTENT_PATH}`;
+  const token = process.env.GITHUB_TOKEN;
+  if (token) {
+    try {
+      const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_CONTENT_PATH}?ref=${GITHUB_BRANCH}`;
+      const response = await fetch(apiUrl, {
+        headers: getGithubHeaders(token),
+        cache: "no-store",
+      });
+      if (response.ok) {
+        const data = (await response.json()) as { content?: string; encoding?: string };
+        if (data.content && data.encoding === "base64") {
+          return Buffer.from(data.content.replace(/\n/g, ""), "base64").toString("utf-8");
+        }
+      }
+    } catch {
+      // Fall back to raw URL below.
+    }
+  }
+
+  const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${GITHUB_CONTENT_PATH}?t=${Date.now()}`;
   try {
     const response = await fetch(url, { cache: "no-store" });
     if (!response.ok) return null;

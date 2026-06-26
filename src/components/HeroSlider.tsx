@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Zap, Download } from "lucide-react";
 import Counter from "./Counter";
-import DesktopHeroVideo from "./DesktopHeroVideo";
+import HeroVideo from "./HeroVideo";
 import { useContent } from "./ContentProvider";
 
 export default function HeroSlider() {
@@ -52,7 +52,11 @@ export default function HeroSlider() {
   }, [current, heroSlides.length, isDesktop]);
 
   return (
-    <section className="relative min-h-[100svh] max-h-[900px] h-auto sm:h-[90vh] sm:min-h-[580px] sm:max-h-[860px] overflow-hidden bg-[#0a1628]" aria-roledescription="carousel" aria-label="Hero slides">
+    <section
+      className="relative flex min-h-[100svh] max-h-[900px] flex-col overflow-hidden bg-[#0a1628] sm:h-[90vh] sm:min-h-[580px] sm:max-h-[860px]"
+      aria-roledescription="carousel"
+      aria-label="Hero slides"
+    >
       <div className="absolute inset-0">
         {heroSlides.map((s, i) => {
           if (!visibleSlideIndexes.has(i)) return null;
@@ -84,7 +88,7 @@ export default function HeroSlider() {
         style={{ animationDelay: "1.5s" }}
       />
 
-      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-start px-4 pb-[12.5rem] pt-[4.75rem] sm:min-h-0 sm:h-full sm:justify-center sm:px-5 sm:pb-36 sm:pt-20 lg:px-8 lg:pb-32">
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-start px-4 pb-4 pt-[4.75rem] sm:justify-center sm:px-5 sm:pt-20 sm:pb-6 lg:px-8">
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-10">
           <div className="min-w-0">
             <div className="hero-fade-in mb-4 inline-flex max-w-full items-center gap-2 rounded-full glass px-3 py-1.5 text-[11px] font-medium text-orange-200 sm:mb-5 sm:px-4 sm:text-sm">
@@ -127,7 +131,7 @@ export default function HeroSlider() {
               <div className="absolute -inset-8 rounded-full border border-dashed border-cyan-400/15" />
 
               <div className="relative h-[320px] w-[320px] overflow-hidden rounded-2xl border-4 border-white/90 bg-[#0a1628] shadow-2xl shadow-black/50">
-                <DesktopHeroVideo />
+                <HeroVideo />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
               </div>
 
@@ -145,7 +149,7 @@ export default function HeroSlider() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 z-20">
+      <div className="relative z-20 mt-auto shrink-0">
         <div className="flex items-center justify-center gap-2 px-4 pb-2 sm:hidden">
           <button type="button" onClick={prev} className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full glass text-white" aria-label="Previous slide">
             <ChevronLeft size={16} />
