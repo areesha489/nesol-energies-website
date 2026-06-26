@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, type DragEvent } from "react";
+import { useRef, useState } from "react";
 import { Upload, Link as LinkIcon, Loader2, Plus, Trash2, ImagePlus } from "lucide-react";
+import { isUnoptimizedPreview, normalizeMediaInput, uploadImageFile } from "@/lib/admin-media";
 
 interface ImagesFieldProps {
   label: string;
@@ -10,10 +11,6 @@ interface ImagesFieldProps {
   value: string[];
   onChange: (urls: string[]) => void;
   maxImages?: number;
-}
-
-function previewUnoptimized(url: string) {
-  return url.startsWith("/uploads/") || url.includes("blob.vercel-storage.com");
 }
 
 export default function ImagesField({
@@ -27,58 +24,46 @@ export default function ImagesField({
   const [uploading, setUploading] = useState(false);
   const [urlInput, setUrlInput] = useState("");
   const [error, setError] = useState("");
-  const [dragOver, setDragOver] = useState(false);
   const images = value ?? [];
   const canAddMore = images.length < maxImages;
 
-  async function uploadFiles(files: FileList | File[]) {
+  async function handleUpload(files: FileList | File[]) {
     const list = Array.from(files).filter((file) => file.type.startsWith("image/"));
     if (!list.length) {
-      setError("Sirf image files (JPG, PNG, WebP, GIF) upload ho sakti hain.");
+      setError("Sirf image files upload ho sakti hain.");
       return;
     }
 
     const slots = maxImages - images.length;
     if (slots <= 0) {
-      setError(`Maximum ${maxImages} images allowed. Pehle koi image remove karein.`);
+      setError(`Maximum ${maxImages} images. Pehle koi remove karein.`);
       return;
     }
 
-    const toUpload = list.slice(0, slots);
     setUploading(true);
     setError("");
 
-    const uploaded: string[] = [];
-
-    for (const file of toUpload) {
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-        const res = await fetch("/api/upload", { method: "POST", body: formData });
-        const data = await res.json();
-        if (!res.ok) {
-          setError(data.error ?? "Upload failed. Dobara try karein.");
-          break;
-        }
-        if (data.url) uploaded.push(data.url);
-      } catch {
-        setError("Network error during upload.");
-        break;
-      }
-    }
+    const results = await Promise.all(list.slice(0, slots).map((file) => uploadImageFile(file)));
+    const uploaded = results.map((r) => r.url).filter(Boolean) as string[];
+    const firstError = results.find((r) => r.error)?.error;
 
     if (uploaded.length) {
       onChange([...images, ...uploaded]);
+    } else if (firstError) {
+      setError(firstError);
     }
 
     setUploading(false);
   }
 
   function addUrl() {
-    const url = urlInput.trim();
-    if (!url) return;
+    const url = normalizeMediaInput(urlInput);
+    if (!url) {
+      setError("Valid image URL paste karein.");
+      return;
+    }
     if (!canAddMore) {
-      setError(`Maximum ${maxImages} images allowed.`);
+      setError(`Maximum ${maxImages} images.`);
       return;
     }
     onChange([...images, url]);
@@ -86,95 +71,59 @@ export default function ImagesField({
     setError("");
   }
 
-  function removeImage(index: number) {
-    onChange(images.filter((_, i) => i !== index));
-    setError("");
-  }
-
-  function onDrop(e: DragEvent) {
-    e.preventDefault();
-    setDragOver(false);
-    if (!canAddMore || uploading) return;
-    if (e.dataTransfer.files?.length) uploadFiles(e.dataTransfer.files);
-  }
-
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       <div>
         <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide">{label}</label>
         {description && <p className="mt-1 text-xs text-gray-500">{description}</p>}
-      </div>
-
-      <div
-        onDragOver={(e) => {
-          e.preventDefault();
-          if (canAddMore) setDragOver(true);
-        }}
-        onDragLeave={() => setDragOver(false)}
-        onDrop={onDrop}
-        className={`rounded-xl border-2 border-dashed p-4 transition-colors ${
-          dragOver ? "border-orange-400 bg-orange-50" : "border-gray-200 bg-gray-50/50"
-        }`}
-      >
-        <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:text-left">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600">
-            <ImagePlus size={18} />
-          </div>
-          <div className="flex-1">
-            <p className="text-sm font-medium text-gray-800">Apni image yahan upload karein</p>
-            <p className="text-xs text-gray-500">Drag & drop, ya neeche Upload button use karein</p>
-          </div>
-          <input
-            ref={inputRef}
-            type="file"
-            accept="image/jpeg,image/png,image/webp,image/gif"
-            multiple
-            className="hidden"
-            onChange={(e) => {
-              const files = e.target.files;
-              if (files?.length) uploadFiles(files);
-              e.target.value = "";
-            }}
-          />
-          <button
-            type="button"
-            onClick={() => inputRef.current?.click()}
-            disabled={uploading || !canAddMore}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 px-4 py-2.5 text-xs font-bold text-white hover:opacity-90 disabled:opacity-50"
-          >
-            {uploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
-            {uploading ? "Uploading..." : "Upload Image"}
-          </button>
-        </div>
       </div>
 
       <div className="flex gap-2">
         <div className="relative flex-1">
           <LinkIcon size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
-            type="url"
+            type="text"
             value={urlInput}
             onChange={(e) => setUrlInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addUrl())}
-            placeholder="Ya image URL paste karein"
-            className="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-9 pr-3 text-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/20"
+            placeholder="Image URL ya Upload karein"
+            disabled={!canAddMore}
+            className="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-9 pr-3 text-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/20 disabled:opacity-50"
           />
         </div>
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          multiple
+          className="hidden"
+          onChange={(e) => {
+            const files = e.target.files;
+            if (files?.length) handleUpload(files);
+            e.target.value = "";
+          }}
+        />
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          disabled={uploading || !canAddMore}
+          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 px-3 py-2 text-xs font-bold text-white hover:opacity-90 disabled:opacity-50"
+        >
+          {uploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
+          Upload
+        </button>
         <button
           type="button"
           onClick={addUrl}
           disabled={!urlInput.trim() || !canAddMore}
           className="inline-flex items-center gap-1 rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-40"
         >
-          <Plus size={14} /> Add URL
+          <Plus size={14} />
         </button>
       </div>
 
       {error && <p className="text-xs font-medium text-red-600">{error}</p>}
-
-      <p className="text-[11px] text-gray-400">
-        {images.length} / {maxImages} images · Save Changes dabana zaroori hai
-      </p>
+      <p className="text-[11px] text-gray-400">{images.length} / {maxImages} images</p>
 
       {images.length > 0 ? (
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -187,12 +136,12 @@ export default function ImagesField({
                   fill
                   className="object-cover"
                   sizes="200px"
-                  unoptimized={previewUnoptimized(url)}
+                  unoptimized={isUnoptimizedPreview(url)}
                 />
               </div>
               <button
                 type="button"
-                onClick={() => removeImage(index)}
+                onClick={() => onChange(images.filter((_, i) => i !== index))}
                 className="absolute top-2 right-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white shadow hover:bg-red-600"
                 aria-label="Remove image"
               >
@@ -205,9 +154,9 @@ export default function ImagesField({
           ))}
         </div>
       ) : (
-        <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
-          Abhi koi image nahi — upar se upload karein ya URL add karein.
-        </p>
+        <div className="flex h-24 items-center justify-center rounded-lg border border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
+          <ImagePlus size={16} className="mr-1.5" /> Upload karein ya URL add karein
+        </div>
       )}
     </div>
   );

@@ -3,15 +3,12 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { Upload, Link as LinkIcon, Loader2, ImagePlus } from "lucide-react";
+import { isUnoptimizedPreview, uploadImageFile } from "@/lib/admin-media";
 
 interface ImageFieldProps {
   label: string;
   value: string;
   onChange: (url: string) => void;
-}
-
-function previewUnoptimized(url: string) {
-  return url.startsWith("/uploads/") || url.includes("blob.vercel-storage.com");
 }
 
 export default function ImageField({ label, value, onChange }: ImageFieldProps) {
@@ -20,28 +17,15 @@ export default function ImageField({ label, value, onChange }: ImageFieldProps) 
   const [error, setError] = useState("");
 
   async function handleUpload(file: File) {
-    if (!file.type.startsWith("image/")) {
-      setError("Sirf image files upload ho sakti hain.");
-      return;
-    }
-
     setUploading(true);
     setError("");
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error ?? "Upload failed.");
-        return;
-      }
-      if (data.url) onChange(data.url);
-    } catch {
-      setError("Network error during upload.");
-    } finally {
-      setUploading(false);
+    const result = await uploadImageFile(file);
+    if (result.error) {
+      setError(result.error);
+    } else if (result.url) {
+      onChange(result.url);
     }
+    setUploading(false);
   }
 
   return (
@@ -51,13 +35,13 @@ export default function ImageField({ label, value, onChange }: ImageFieldProps) 
         <div className="relative flex-1">
           <LinkIcon size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
-            type="url"
+            type="text"
             value={value}
             onChange={(e) => {
               onChange(e.target.value);
               setError("");
             }}
-            placeholder="Image URL ya upload karein"
+            placeholder="Image URL ya Upload karein"
             className="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-9 pr-3 text-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/20"
           />
         </div>
@@ -91,7 +75,7 @@ export default function ImageField({ label, value, onChange }: ImageFieldProps) 
             fill
             className="object-cover"
             sizes="400px"
-            unoptimized={previewUnoptimized(value)}
+            unoptimized={isUnoptimizedPreview(value)}
           />
         </div>
       ) : (

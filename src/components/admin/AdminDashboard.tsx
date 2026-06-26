@@ -36,6 +36,7 @@ export default function AdminDashboard() {
       const res = await fetch("/api/content", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
         body: JSON.stringify(content),
       });
       const data = await res.json().catch(() => ({}));
@@ -562,7 +563,7 @@ function ProductsSection({ content, update }: { content: SiteContent; update: (f
               </div>
               <ImagesField
                 label="Product Images"
-                description="Apni product ki images upload karein (JPG, PNG, WebP) — pehli image cover banegi"
+                description="Banner ki tarah Upload dabayein — pehli image cover hogi"
                 value={item.images ?? []}
                 onChange={(images) => updateProduct(category.id, item.id, { images })}
                 maxImages={5}

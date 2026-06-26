@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { getSiteContent, saveSiteContent } from "@/lib/content-store";
 import { isAuthenticated } from "@/lib/auth";
-import { useBlobStorage } from "@/lib/content-persistence";
 import type { SiteContent } from "@/lib/content-types";
 
 const REVALIDATE_PATHS = [
@@ -24,17 +23,7 @@ export async function GET() {
 
 export async function PUT(request: Request) {
   if (!(await isAuthenticated())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  if (process.env.VERCEL === "1" && !useBlobStorage()) {
-    return NextResponse.json(
-      {
-        error:
-          "CMS storage is not configured. Add a Vercel Blob store and set BLOB_READ_WRITE_TOKEN in project settings.",
-      },
-      { status: 503 },
-    );
+    return NextResponse.json({ error: "Session expire ho gayi. Dobara login karein." }, { status: 401 });
   }
 
   try {
@@ -46,7 +35,7 @@ export async function PUT(request: Request) {
     }
     return NextResponse.json({ success: true });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Invalid content";
-    return NextResponse.json({ error: message }, { status: 400 });
+    const message = error instanceof Error ? error.message : "Save failed";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
