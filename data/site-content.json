@@ -615,20 +615,18 @@
             "priceNote": ""
           },
           {
-            "id": "inverter-10kw-on-grid",
-            "name": "10kW On-Grid Inverter",
-            "brand": "Sungrow",
-            "specs": "10kW | Dual MPPT | IP65 Rated",
-            "description": "Commercial-grade on-grid inverter for net metering installations. Rugged IP65 enclosure for outdoor and industrial use.",
+            "id": "d75c43e1-6d31-4155-a47c-519605b938fe",
+            "name": "New Product",
+            "brand": "Brand",
+            "specs": "Specs here",
+            "description": "Product description",
             "images": [
-              "https://raw.githubusercontent.com/areesha489/nesol-energies-website/main/public/uploads/1782485347285-8p92wb.png"
+              "https://raw.githubusercontent.com/areesha489/nesol-energies-website/main/public/uploads/1782485411906-ws5m3z.jpg"
             ],
             "features": [
-              "10kW rated output",
-              "Dual MPPT inputs",
-              "IP65 weatherproof rating",
-              "Net metering compatible",
-              "Smart grid monitoring"
+              "Key feature 1",
+              "Key feature 2",
+              "Key feature 3"
             ],
             "availability": "In Stock",
             "price": 0,
