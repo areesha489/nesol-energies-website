@@ -16,10 +16,10 @@ function WhatsAppIcon({ className }: { className?: string }) {
 }
 
 const quoteButtonClass =
-  "inline-flex items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-orange-500/25 transition-transform hover:scale-105 whitespace-nowrap";
+  "inline-flex shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-2.5 py-1.5 text-[11px] font-bold text-white shadow-lg shadow-orange-500/25 transition-transform hover:scale-105 whitespace-nowrap xl:px-3 xl:py-2 xl:text-xs 2xl:px-3.5 2xl:text-sm";
 
 function navLinkClass(active: boolean, solid: boolean) {
-  return `relative inline-flex items-center px-3 py-2 text-[13px] xl:px-3.5 xl:text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${
+  return `relative inline-flex shrink-0 items-center px-1 py-1 text-[11px] font-medium rounded-md transition-colors whitespace-nowrap xl:px-1.5 xl:text-xs 2xl:text-[13px] ${
     solid
       ? active
         ? "text-orange-500"
@@ -38,6 +38,7 @@ export default function Navbar() {
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const solid = scrolled || !isHome;
   const productsActive = pathname === "/products";
 
   useEffect(() => {
@@ -58,14 +59,12 @@ export default function Navbar() {
     };
   }, [open]);
 
-  const solid = scrolled || !isHome || open;
-
   function renderDesktopLink(href: string, label: string) {
     const active = pathname === href;
     return (
       <Link key={href} href={href} className={navLinkClass(active, solid)}>
         {label}
-        {active && <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-orange-500" />}
+        {active && <span className="absolute bottom-0 left-1.5 right-1.5 h-0.5 rounded-full bg-orange-500" />}
       </Link>
     );
   }
@@ -85,11 +84,11 @@ export default function Navbar() {
         <Link href="/products" className={navLinkClass(productsActive, solid)} aria-haspopup="true" aria-expanded={productsOpen}>
           {productsNav.label}
           <ChevronDown
-            size={13}
+            size={12}
             className={`ml-0.5 shrink-0 opacity-70 transition-transform ${productsOpen ? "rotate-180" : ""}`}
             aria-hidden="true"
           />
-          {productsActive && <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-orange-500" />}
+          {productsActive && <span className="absolute bottom-0 left-1.5 right-1.5 h-0.5 rounded-full bg-orange-500" />}
         </Link>
 
         <div className={`absolute left-0 top-full z-50 pt-2 ${productsOpen ? "block" : "hidden"}`}>
@@ -116,10 +115,12 @@ export default function Navbar() {
         solid ? "bg-white/95 backdrop-blur-xl shadow-md py-2" : "bg-gradient-to-b from-black/70 to-transparent py-2.5 sm:py-3"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 sm:px-5 lg:px-8">
-        <Logo variant="nav" theme={solid ? "light" : "dark"} />
+      <div className="mx-auto flex max-w-7xl items-center gap-1 px-3 sm:px-4 xl:gap-2 xl:px-6 2xl:px-8">
+        <div className="shrink-0">
+          <Logo variant="nav" theme={solid ? "light" : "dark"} />
+        </div>
 
-        <div className="hidden lg:flex flex-1 items-center justify-end gap-0.5 flex-nowrap">
+        <div className="hidden min-w-0 flex-1 items-center justify-end gap-0 xl:flex">
           {navLinks.map((l) => {
             const active = pathname === l.href;
             if (l.href === "/services") {
@@ -133,7 +134,7 @@ export default function Navbar() {
             return (
               <Link key={l.href} href={l.href} className={navLinkClass(active, solid)}>
                 {l.label}
-                {active && <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-orange-500" />}
+                {active && <span className="absolute bottom-0 left-1.5 right-1.5 h-0.5 rounded-full bg-orange-500" />}
               </Link>
             );
           })}
@@ -141,12 +142,12 @@ export default function Navbar() {
             href={contact.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-2 inline-flex shrink-0 items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-sm font-bold text-white shadow-lg shadow-green-500/25 transition-transform hover:scale-105 hover:bg-[#20bd5a] whitespace-nowrap sm:px-5"
+            className="ml-1 inline-flex shrink-0 items-center gap-1 rounded-full bg-[#25D366] px-2.5 py-1.5 text-[11px] font-bold text-white shadow-lg shadow-green-500/25 transition-transform hover:scale-105 hover:bg-[#20bd5a] whitespace-nowrap xl:text-xs 2xl:px-3"
           >
-            <WhatsAppIcon className="h-4 w-4" />
+            <WhatsAppIcon className="h-3.5 w-3.5 shrink-0" />
             WhatsApp
           </a>
-          <Link href="/contact" className={`ml-2 ${quoteButtonClass}`}>
+          <Link href="/contact" className={`ml-1 ${quoteButtonClass}`}>
             Get Free Quote
           </Link>
         </div>
@@ -154,7 +155,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setOpen(!open)}
-          className={`ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-lg lg:hidden ${
+          className={`ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-lg xl:hidden ${
             solid ? "text-gray-800 hover:bg-gray-100" : "text-white hover:bg-white/10"
           }`}
           aria-label={open ? "Close menu" : "Open menu"}
@@ -167,7 +168,7 @@ export default function Navbar() {
 
       <div
         id="mobile-nav"
-        className={`lg:hidden overflow-y-auto border-t bg-white shadow-xl transition-all duration-300 ${
+        className={`xl:hidden overflow-y-auto border-t bg-white shadow-xl transition-all duration-300 ${
           open ? "max-h-[calc(100dvh-4rem)] opacity-100" : "max-h-0 opacity-0 pointer-events-none"
         }`}
       >

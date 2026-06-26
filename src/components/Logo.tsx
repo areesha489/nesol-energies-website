@@ -8,10 +8,10 @@ const sizes: Record<
   { icon: string; title: string; subtitle: string; gap: string }
 > = {
   nav: {
-    icon: "h-11 w-11 sm:h-12 sm:w-12 md:h-[3.25rem] md:w-[3.25rem]",
-    title: "text-sm sm:text-[1.05rem] md:text-[1.15rem]",
-    subtitle: "text-[0.5rem] sm:text-[0.58rem] md:text-[0.62rem]",
-    gap: "gap-1 sm:gap-1.5",
+    icon: "h-9 w-9 xl:h-10 xl:w-10 2xl:h-11 2xl:w-11",
+    title: "text-xs xl:text-[1rem] 2xl:text-[1.1rem]",
+    subtitle: "text-[0.45rem] min-[400px]:text-[0.5rem] xl:text-[0.55rem] 2xl:text-[0.6rem]",
+    gap: "gap-1",
   },
   footer: {
     icon: "h-14 w-14 sm:h-[3.75rem] sm:w-[3.75rem]",
@@ -77,7 +77,7 @@ export default function Logo({
   );
 
   return href ? (
-    <Link href={href} className="inline-flex min-w-0 max-w-[58vw] shrink sm:max-w-none" aria-label="Nesol Energies — Home">
+    <Link href={href} className="inline-flex min-w-0 max-w-[48vw] shrink-0 xl:max-w-[220px] 2xl:max-w-none" aria-label="Nesol Energies — Home">
       {content}
     </Link>
   ) : (
