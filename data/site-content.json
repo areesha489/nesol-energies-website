@@ -565,8 +565,8 @@
               "Ideal for rooftop & ground mount"
             ],
             "availability": "In Stock",
-            "price": 18500,
-            "priceNote": "Per panel · Installation extra"
+            "price": 0,
+            "priceNote": ""
           },
           {
             "id": "panel-450w-half-cut",
@@ -586,8 +586,8 @@
               "12-year product warranty"
             ],
             "availability": "In Stock",
-            "price": 15200,
-            "priceNote": "Per panel · Bulk discounts available"
+            "price": 0,
+            "priceNote": ""
           }
         ]
       },
@@ -616,8 +616,8 @@
               "Silent fan cooling system"
             ],
             "availability": "In Stock",
-            "price": 285000,
-            "priceNote": "Includes 2-year warranty"
+            "price": 0,
+            "priceNote": ""
           },
           {
             "id": "inverter-10kw-on-grid",
@@ -637,8 +637,8 @@
               "Smart grid monitoring"
             ],
             "availability": "In Stock",
-            "price": 420000,
-            "priceNote": "Commercial grade · Free delivery in Lahore"
+            "price": 0,
+            "priceNote": ""
           }
         ]
       },
@@ -667,8 +667,8 @@
               "BMS safety protection"
             ],
             "availability": "In Stock",
-            "price": 385000,
-            "priceNote": "Wall-mount kit included"
+            "price": 0,
+            "priceNote": ""
           },
           {
             "id": "battery-200ah-tubular",
@@ -688,8 +688,8 @@
               "2-year warranty included"
             ],
             "availability": "In Stock",
-            "price": 52000,
-            "priceNote": "Per unit · Exchange available"
+            "price": 0,
+            "priceNote": ""
           }
         ]
       }

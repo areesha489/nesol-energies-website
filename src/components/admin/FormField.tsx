@@ -47,17 +47,19 @@ export function SectionCard({ title, children }: { title: string; children: Reac
 export function SaveBar({
   saving,
   saved,
+  error,
   onSave,
 }: {
   saving: boolean;
   saved: boolean;
+  error?: string;
   onSave: () => void;
 }) {
   return (
     <div className="sticky bottom-0 z-20 -mx-5 mt-6 border-t border-gray-200 bg-white/95 px-5 py-4 backdrop-blur-sm lg:-mx-8 lg:px-8">
       <div className="flex items-center justify-between gap-4">
-        <p className="text-xs text-gray-500">
-          {saved ? "✓ Changes saved successfully" : "Remember to save your changes"}
+        <p className={`text-xs ${error ? "text-red-600" : saved ? "text-emerald-600" : "text-gray-500"}`}>
+          {error ? error : saved ? "✓ Changes saved successfully" : "Remember to save your changes"}
         </p>
         <button
           type="button"

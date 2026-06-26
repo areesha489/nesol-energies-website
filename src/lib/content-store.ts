@@ -1,5 +1,3 @@
-import { promises as fs } from "fs";
-import path from "path";
 import { unstable_cache, revalidateTag } from "next/cache";
 import type { SiteContent, NavLink, Project, ProductItem } from "./content-types";
 import { defaultSiteContent } from "./default-content";
@@ -9,8 +7,7 @@ import {
   DEFAULT_PROJECT_IMAGES,
   resolveMediaUrl,
 } from "./media";
-
-const CONTENT_PATH = path.join(process.cwd(), "data", "site-content.json");
+import { readContentRaw, writeContentRaw } from "./content-persistence";
 
 function mergeNavLinks(parsed: NavLink[] | undefined): NavLink[] {
   const defaults = defaultSiteContent.navLinks;
@@ -86,7 +83,7 @@ function normalizeProduct(item: Partial<ProductItem> & { image?: string; id?: st
     features,
     availability: item.availability ?? "In Stock",
     price: typeof item.price === "number" && item.price > 0 ? item.price : 0,
-    priceNote: item.priceNote ?? "Contact for latest price",
+    priceNote: item.priceNote ?? "",
   };
 }
 
@@ -162,17 +159,17 @@ function mergeContent(parsed: Partial<SiteContent>): SiteContent {
 }
 
 async function readSiteContent(): Promise<SiteContent> {
-  try {
-    const raw = await fs.readFile(CONTENT_PATH, "utf-8");
+  const raw = await readContentRaw();
+  if (raw) {
     return mergeContent(JSON.parse(raw) as Partial<SiteContent>);
-  } catch {
-    await saveSiteContent(defaultSiteContent);
-    return defaultSiteContent;
   }
+
+  await saveSiteContent(defaultSiteContent);
+  return defaultSiteContent;
 }
 
 const getCachedSiteContent = unstable_cache(readSiteContent, ["site-content"], {
-  revalidate: 300,
+  revalidate: 60,
   tags: ["site-content"],
 });
 
@@ -181,9 +178,6 @@ export async function getSiteContent(): Promise<SiteContent> {
 }
 
 export async function saveSiteContent(content: SiteContent): Promise<void> {
-  await fs.mkdir(path.dirname(CONTENT_PATH), { recursive: true });
-  await fs.writeFile(CONTENT_PATH, JSON.stringify(content, null, 2), "utf-8");
+  await writeContentRaw(JSON.stringify(content, null, 2));
   revalidateTag("site-content", { expire: 0 });
 }
-
-export { CONTENT_PATH };

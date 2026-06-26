@@ -18,6 +18,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState("");
 
   useEffect(() => {
     fetch("/api/content")
@@ -30,13 +31,21 @@ export default function AdminDashboard() {
     if (!content) return;
     setSaving(true);
     setSaved(false);
+    setSaveError("");
     try {
       const res = await fetch("/api/content", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(content),
       });
-      if (res.ok) setSaved(true);
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setSaved(true);
+      } else {
+        setSaveError(data.error ?? "Save failed. Please try again.");
+      }
+    } catch {
+      setSaveError("Network error while saving. Please try again.");
     } finally {
       setSaving(false);
     }
@@ -45,6 +54,7 @@ export default function AdminDashboard() {
   function update(updater: (prev: SiteContent) => SiteContent) {
     setContent((prev) => (prev ? updater(prev) : prev));
     setSaved(false);
+    setSaveError("");
   }
 
   if (loading || !content) {
@@ -74,7 +84,7 @@ export default function AdminDashboard() {
       {active === "pages" && <PageHeadersSection content={content} update={update} />}
       {active === "settings" && <SettingsSection content={content} update={update} />}
 
-      <SaveBar saving={saving} saved={saved} onSave={save} />
+      <SaveBar saving={saving} saved={saved} error={saveError} onSave={save} />
     </AdminShell>
   );
 }
@@ -440,7 +450,7 @@ function ProductsSection({ content, update }: { content: SiteContent; update: (f
                     features: ["Key feature 1", "Key feature 2", "Key feature 3"],
                     availability: "In Stock",
                     price: 0,
-                    priceNote: "Contact for latest price",
+                    priceNote: "",
                   },
                 ],
               }
@@ -575,15 +585,7 @@ function ProductsSection({ content, update }: { content: SiteContent; update: (f
                   })
                 }
               />
-              <div className="grid gap-4 sm:grid-cols-3">
-                <Field label="Availability" value={item.availability ?? "In Stock"} onChange={(v) => updateProduct(category.id, item.id, { availability: v })} />
-                <Field
-                  label="Price (PKR)"
-                  value={String(item.price ?? 0)}
-                  onChange={(v) => updateProduct(category.id, item.id, { price: Number(v.replace(/[^\d]/g, "")) || 0 })}
-                />
-                <Field label="Price Note" value={item.priceNote} onChange={(v) => updateProduct(category.id, item.id, { priceNote: v })} />
-              </div>
+              <Field label="Availability" value={item.availability ?? "In Stock"} onChange={(v) => updateProduct(category.id, item.id, { availability: v })} />
             </SectionCard>
           ))}
 
