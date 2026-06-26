@@ -1,9 +1,5 @@
 export function isUnoptimizedPreview(url: string) {
-  return (
-    url.startsWith("/uploads/") ||
-    url.startsWith("/images/") ||
-    url.includes("blob.vercel-storage.com")
-  );
+  return url.startsWith("/uploads/") || url.startsWith("/images/");
 }
 
 export function normalizeMediaInput(input: string): string | null {

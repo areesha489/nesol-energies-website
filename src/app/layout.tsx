@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import { Rajdhani, Inter } from "next/font/google";
 import { getSiteUrl } from "@/lib/site-url";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import GoogleAnalyticsPageView from "@/components/GoogleAnalyticsPageView";
 import "./globals.css";
 
 const rajdhani = Rajdhani({
@@ -16,6 +19,7 @@ const inter = Inter({
 });
 
 const siteUrl = getSiteUrl();
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -48,6 +52,9 @@ export const metadata: Metadata = {
     description: "Premium solar and renewable energy solutions across Pakistan.",
   },
   robots: { index: true, follow: true },
+  ...(googleSiteVerification
+    ? { verification: { google: googleSiteVerification } }
+    : {}),
   icons: {
     icon: [{ url: "/icon.png", type: "image/png" }],
     apple: [{ url: "/apple-icon.png", type: "image/png" }],
@@ -86,6 +93,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className="min-h-screen antialiased" suppressHydrationWarning>
+        <GoogleAnalytics />
+        <Suspense fallback={null}>
+          <GoogleAnalyticsPageView />
+        </Suspense>
         {children}
       </body>
     </html>
