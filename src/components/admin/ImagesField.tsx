@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Upload, Link as LinkIcon, Loader2, Plus, Trash2, ImagePlus } from "lucide-react";
 import { isUnoptimizedPreview, normalizeMediaInput, uploadImageFile } from "@/lib/admin-media";
 
@@ -11,6 +11,7 @@ interface ImagesFieldProps {
   value: string[];
   onChange: (urls: string[]) => void;
   maxImages?: number;
+  onUploadingChange?: (uploading: boolean) => void;
 }
 
 export default function ImagesField({
@@ -19,13 +20,20 @@ export default function ImagesField({
   value,
   onChange,
   maxImages = 5,
+  onUploadingChange,
 }: ImagesFieldProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [urlInput, setUrlInput] = useState("");
   const [error, setError] = useState("");
   const images = value ?? [];
+  const imagesRef = useRef(images);
+  imagesRef.current = images;
   const canAddMore = images.length < maxImages;
+
+  useEffect(() => {
+    onUploadingChange?.(uploading);
+  }, [uploading, onUploadingChange]);
 
   async function handleUpload(files: FileList | File[]) {
     const list = Array.from(files).filter((file) => file.type.startsWith("image/"));
@@ -34,7 +42,7 @@ export default function ImagesField({
       return;
     }
 
-    const slots = maxImages - images.length;
+    const slots = maxImages - imagesRef.current.length;
     if (slots <= 0) {
       setError(`Maximum ${maxImages} images. Pehle koi remove karein.`);
       return;
@@ -48,7 +56,7 @@ export default function ImagesField({
     const firstError = results.find((r) => r.error)?.error;
 
     if (uploaded.length) {
-      onChange([...images, ...uploaded]);
+      onChange([...imagesRef.current, ...uploaded]);
     } else if (firstError) {
       setError(firstError);
     }

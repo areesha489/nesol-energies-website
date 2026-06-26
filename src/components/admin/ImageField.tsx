@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Upload, Link as LinkIcon, Loader2, ImagePlus } from "lucide-react";
 import { isUnoptimizedPreview, uploadImageFile } from "@/lib/admin-media";
 
@@ -9,12 +9,17 @@ interface ImageFieldProps {
   label: string;
   value: string;
   onChange: (url: string) => void;
+  onUploadingChange?: (uploading: boolean) => void;
 }
 
-export default function ImageField({ label, value, onChange }: ImageFieldProps) {
+export default function ImageField({ label, value, onChange, onUploadingChange }: ImageFieldProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    onUploadingChange?.(uploading);
+  }, [uploading, onUploadingChange]);
 
   async function handleUpload(file: File) {
     setUploading(true);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Plus, Trash2, Star, GripVertical } from "lucide-react";
 import type { SiteContent, HeroSlide, Project, Service, Company, Testimonial, ProcessStep, PricingTier, ProductItem, BlogPost } from "@/lib/content-types";
 import AdminShell from "./AdminShell";
@@ -19,6 +19,13 @@ export default function AdminDashboard() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState("");
+  const uploadCountRef = useRef(0);
+  const [imageUploading, setImageUploading] = useState(false);
+
+  const handleImageUploadingChange = useCallback((uploading: boolean) => {
+    uploadCountRef.current = Math.max(0, uploadCountRef.current + (uploading ? 1 : -1));
+    setImageUploading(uploadCountRef.current > 0);
+  }, []);
 
   useEffect(() => {
     fetch("/api/content")
@@ -72,20 +79,20 @@ export default function AdminDashboard() {
   return (
     <AdminShell active={active} onNavigate={setActive}>
       {active === "overview" && <OverviewSection content={content} onNavigate={setActive} />}
-      {active === "hero" && <HeroSection content={content} update={update} />}
+      {active === "hero" && <HeroSection content={content} update={update} onImageUploadingChange={handleImageUploadingChange} />}
       {active === "pricing" && <PricingSection content={content} update={update} />}
-      {active === "about" && <AboutSection content={content} update={update} />}
+      {active === "about" && <AboutSection content={content} update={update} onImageUploadingChange={handleImageUploadingChange} />}
       {active === "services" && <ServicesSection content={content} update={update} />}
       {active === "companies" && <CompaniesSection content={content} update={update} />}
-      {active === "projects" && <ProjectsSection content={content} update={update} />}
-      {active === "products" && <ProductsSection content={content} update={update} />}
-      {active === "blog" && <BlogSection content={content} update={update} />}
+      {active === "projects" && <ProjectsSection content={content} update={update} onImageUploadingChange={handleImageUploadingChange} />}
+      {active === "products" && <ProductsSection content={content} update={update} onImageUploadingChange={handleImageUploadingChange} />}
+      {active === "blog" && <BlogSection content={content} update={update} onImageUploadingChange={handleImageUploadingChange} />}
       {active === "process" && <ProcessSection content={content} update={update} />}
       {active === "testimonials" && <TestimonialsSection content={content} update={update} />}
-      {active === "pages" && <PageHeadersSection content={content} update={update} />}
+      {active === "pages" && <PageHeadersSection content={content} update={update} onImageUploadingChange={handleImageUploadingChange} />}
       {active === "settings" && <SettingsSection content={content} update={update} />}
 
-      <SaveBar saving={saving} saved={saved} error={saveError} onSave={save} />
+      <SaveBar saving={saving} saved={saved} error={saveError} onSave={save} disabled={imageUploading} />
     </AdminShell>
   );
 }
@@ -131,7 +138,15 @@ function OverviewSection({ content, onNavigate }: { content: SiteContent; onNavi
   );
 }
 
-function HeroSection({ content, update }: { content: SiteContent; update: (fn: (p: SiteContent) => SiteContent) => void }) {
+function HeroSection({
+  content,
+  update,
+  onImageUploadingChange,
+}: {
+  content: SiteContent;
+  update: (fn: (p: SiteContent) => SiteContent) => void;
+  onImageUploadingChange: (uploading: boolean) => void;
+}) {
   function updateSlide(id: string, patch: Partial<HeroSlide>) {
     update((prev) => ({
       ...prev,
@@ -209,7 +224,7 @@ function HeroSection({ content, update }: { content: SiteContent; update: (fn: (
               <Trash2 size={14} /> Delete
             </button>
           </div>
-          <ImageField label="Background Image" value={slide.image} onChange={(v) => updateSlide(slide.id, { image: v })} />
+          <ImageField label="Background Image" value={slide.image} onChange={(v) => updateSlide(slide.id, { image: v })} onUploadingChange={onImageUploadingChange} />
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Title" value={slide.title} onChange={(v) => updateSlide(slide.id, { title: v })} />
             <Field label="Highlight" value={slide.highlight} onChange={(v) => updateSlide(slide.id, { highlight: v })} />
@@ -221,7 +236,15 @@ function HeroSection({ content, update }: { content: SiteContent; update: (fn: (
   );
 }
 
-function AboutSection({ content, update }: { content: SiteContent; update: (fn: (p: SiteContent) => SiteContent) => void }) {
+function AboutSection({
+  content,
+  update,
+  onImageUploadingChange,
+}: {
+  content: SiteContent;
+  update: (fn: (p: SiteContent) => SiteContent) => void;
+  onImageUploadingChange: (uploading: boolean) => void;
+}) {
   return (
     <div className="space-y-5">
       <SectionCard title="About Section Text">
@@ -231,7 +254,7 @@ function AboutSection({ content, update }: { content: SiteContent; update: (fn: 
           <Field label="Heading Highlight" value={content.about.headingHighlight} onChange={(v) => update((p) => ({ ...p, about: { ...p.about, headingHighlight: v } }))} />
         </div>
         <Field label="Paragraph" value={content.about.paragraph} type="textarea" rows={4} onChange={(v) => update((p) => ({ ...p, about: { ...p.about, paragraph: v } }))} />
-        <ImageField label="About Image" value={content.about.image} onChange={(v) => update((p) => ({ ...p, about: { ...p.about, image: v } }))} />
+        <ImageField label="About Image" value={content.about.image} onChange={(v) => update((p) => ({ ...p, about: { ...p.about, image: v } }))} onUploadingChange={onImageUploadingChange} />
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Years Badge Value" value={content.about.yearsBadge.value} onChange={(v) => update((p) => ({ ...p, about: { ...p.about, yearsBadge: { ...p.about.yearsBadge, value: v } } }))} />
           <Field label="Years Badge Label" value={content.about.yearsBadge.label} onChange={(v) => update((p) => ({ ...p, about: { ...p.about, yearsBadge: { ...p.about.yearsBadge, label: v } } }))} />
@@ -340,7 +363,15 @@ function CompaniesSection({ content, update }: { content: SiteContent; update: (
   );
 }
 
-function ProjectsSection({ content, update }: { content: SiteContent; update: (fn: (p: SiteContent) => SiteContent) => void }) {
+function ProjectsSection({
+  content,
+  update,
+  onImageUploadingChange,
+}: {
+  content: SiteContent;
+  update: (fn: (p: SiteContent) => SiteContent) => void;
+  onImageUploadingChange: (uploading: boolean) => void;
+}) {
   function updateProject(id: string, patch: Partial<Project>) {
     update((prev) => ({
       ...prev,
@@ -379,6 +410,7 @@ function ProjectsSection({ content, update }: { content: SiteContent; update: (f
             label="Project Pictures"
             value={project.images ?? []}
             onChange={(images) => updateProject(project.id, { images })}
+            onUploadingChange={onImageUploadingChange}
           />
         </SectionCard>
       ))}
@@ -415,7 +447,15 @@ function ProcessSection({ content, update }: { content: SiteContent; update: (fn
   );
 }
 
-function ProductsSection({ content, update }: { content: SiteContent; update: (fn: (p: SiteContent) => SiteContent) => void }) {
+function ProductsSection({
+  content,
+  update,
+  onImageUploadingChange,
+}: {
+  content: SiteContent;
+  update: (fn: (p: SiteContent) => SiteContent) => void;
+  onImageUploadingChange: (uploading: boolean) => void;
+}) {
   function updateProduct(catId: string, itemId: string, patch: Partial<ProductItem>) {
     update((prev) => ({
       ...prev,
@@ -566,6 +606,7 @@ function ProductsSection({ content, update }: { content: SiteContent; update: (f
                 description="Banner ki tarah Upload dabayein — pehli image cover hogi"
                 value={item.images ?? []}
                 onChange={(images) => updateProduct(category.id, item.id, { images })}
+                onUploadingChange={onImageUploadingChange}
                 maxImages={5}
               />
               <Field label="Name" value={item.name} onChange={(v) => updateProduct(category.id, item.id, { name: v })} />
@@ -605,7 +646,15 @@ function ProductsSection({ content, update }: { content: SiteContent; update: (f
   );
 }
 
-function BlogSection({ content, update }: { content: SiteContent; update: (fn: (p: SiteContent) => SiteContent) => void }) {
+function BlogSection({
+  content,
+  update,
+  onImageUploadingChange,
+}: {
+  content: SiteContent;
+  update: (fn: (p: SiteContent) => SiteContent) => void;
+  onImageUploadingChange: (uploading: boolean) => void;
+}) {
   function updatePost(id: string, patch: Partial<BlogPost>) {
     update((prev) => ({
       ...prev,
@@ -640,7 +689,7 @@ function BlogSection({ content, update }: { content: SiteContent; update: (fn: (
               <Trash2 size={14} /> Delete
             </button>
           </div>
-          <ImageField label="Cover Image" value={post.image} onChange={(v) => updatePost(post.id, { image: v })} />
+          <ImageField label="Cover Image" value={post.image} onChange={(v) => updatePost(post.id, { image: v })} onUploadingChange={onImageUploadingChange} />
           <Field label="Title" value={post.title} onChange={(v) => updatePost(post.id, { title: v })} />
           <Field label="Excerpt" value={post.excerpt} type="textarea" onChange={(v) => updatePost(post.id, { excerpt: v })} />
           <Field label="Content" value={post.content} type="textarea" rows={8} onChange={(v) => updatePost(post.id, { content: v })} />
@@ -720,7 +769,15 @@ function TestimonialsSection({ content, update }: { content: SiteContent; update
   );
 }
 
-function PageHeadersSection({ content, update }: { content: SiteContent; update: (fn: (p: SiteContent) => SiteContent) => void }) {
+function PageHeadersSection({
+  content,
+  update,
+  onImageUploadingChange,
+}: {
+  content: SiteContent;
+  update: (fn: (p: SiteContent) => SiteContent) => void;
+  onImageUploadingChange: (uploading: boolean) => void;
+}) {
   const pages = Object.entries(content.pageHeaders);
 
   return (
@@ -731,7 +788,7 @@ function PageHeadersSection({ content, update }: { content: SiteContent; update:
 
       {pages.map(([key, header]) => (
         <SectionCard key={key} title={`${key.charAt(0).toUpperCase() + key.slice(1)} Page`}>
-          <ImageField label="Banner Image" value={header.image || ""} onChange={(v) => update((p) => ({ ...p, pageHeaders: { ...p.pageHeaders, [key]: { ...p.pageHeaders[key], image: v } } }))} />
+          <ImageField label="Banner Image" value={header.image || ""} onChange={(v) => update((p) => ({ ...p, pageHeaders: { ...p.pageHeaders, [key]: { ...p.pageHeaders[key], image: v } } }))} onUploadingChange={onImageUploadingChange} />
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Title" value={header.title} onChange={(v) => update((p) => ({ ...p, pageHeaders: { ...p.pageHeaders, [key]: { ...p.pageHeaders[key], title: v } } }))} />
             <Field label="Highlight" value={header.highlight || ""} onChange={(v) => update((p) => ({ ...p, pageHeaders: { ...p.pageHeaders, [key]: { ...p.pageHeaders[key], highlight: v } } }))} />

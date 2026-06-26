@@ -49,25 +49,29 @@ export function SaveBar({
   saved,
   error,
   onSave,
+  disabled = false,
 }: {
   saving: boolean;
   saved: boolean;
   error?: string;
   onSave: () => void;
+  disabled?: boolean;
 }) {
+  const isDisabled = saving || disabled;
+
   return (
     <div className="sticky bottom-0 z-20 -mx-5 mt-6 border-t border-gray-200 bg-white/95 px-5 py-4 backdrop-blur-sm lg:-mx-8 lg:px-8">
       <div className="flex items-center justify-between gap-4">
         <p className={`text-xs ${error ? "text-red-600" : saved ? "text-emerald-600" : "text-gray-500"}`}>
-          {error ? error : saved ? "✓ Changes saved successfully" : "Remember to save your changes"}
+          {error ? error : saved ? "✓ Changes saved successfully" : disabled ? "Image upload complete hone ka wait karein, phir save karein" : "Remember to save your changes"}
         </p>
         <button
           type="button"
           onClick={onSave}
-          disabled={saving}
+          disabled={isDisabled}
           className="rounded-full bg-gradient-to-r from-orange-500 to-amber-400 px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-orange-500/25 hover:scale-[1.02] transition-transform disabled:opacity-60"
         >
-          {saving ? "Saving..." : "Save Changes"}
+          {saving ? "Saving..." : disabled ? "Uploading..." : "Save Changes"}
         </button>
       </div>
     </div>

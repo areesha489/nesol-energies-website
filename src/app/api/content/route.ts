@@ -35,6 +35,11 @@ export async function PUT(request: Request) {
     for (const route of REVALIDATE_PATHS) {
       revalidatePath(route, "layout");
     }
+    for (const category of content.products.categories) {
+      for (const item of category.items) {
+        revalidatePath(`/products/${item.id}`);
+      }
+    }
     return NextResponse.json({ success: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Save failed";

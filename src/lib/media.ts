@@ -29,14 +29,36 @@ export const DEFAULT_HERO_SLIDE_IMAGES = [
   "https://images.unsplash.com/photo-1558449028-b06a8d0ea4d0?w=1280&q=75&auto=format&fit=crop",
 ];
 
+const GITHUB_OWNER = process.env.GITHUB_OWNER || "areesha489";
+const GITHUB_REPO = process.env.GITHUB_REPO || "nesol-energies-website";
+const GITHUB_BRANCH = process.env.GITHUB_BRANCH || "main";
+
+export function githubRawUploadUrl(uploadPath: string) {
+  const normalized = uploadPath.replace(/^\//, "");
+  const publicPath = normalized.startsWith("public/") ? normalized : `public/${normalized}`;
+  return `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${publicPath}`;
+}
+
 export function uploadExists(url: string) {
   if (!url.startsWith("/uploads/") && !url.startsWith("/images/")) return true;
   const filePath = path.join(process.cwd(), "public", url.replace(/^\//, ""));
   return fs.existsSync(filePath);
 }
 
+export function resolveUploadUrl(url: string, fallback = "") {
+  if (!url) return fallback;
+  if (url.startsWith("/uploads/") || url.startsWith("/images/")) {
+    if (uploadExists(url)) return url;
+    if (url.startsWith("/uploads/")) return githubRawUploadUrl(url);
+    return fallback;
+  }
+  return url;
+}
+
 export function resolveMediaUrl(url: string, fallback: string) {
   if (!url) return fallback;
-  if (!url.startsWith("/uploads/")) return url;
-  return uploadExists(url) ? url : fallback;
+  if (!url.startsWith("/uploads/") && !url.startsWith("/images/")) return url;
+  if (uploadExists(url)) return url;
+  if (url.startsWith("/uploads/")) return githubRawUploadUrl(url);
+  return fallback;
 }

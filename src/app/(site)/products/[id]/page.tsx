@@ -5,6 +5,8 @@ import { getSiteContent } from "@/lib/content-store";
 import { findProduct, getRelatedProducts, getProductCover } from "@/lib/products";
 import { createPageMetadata } from "@/lib/page-metadata";
 
+export const dynamic = "force-dynamic";
+
 type Props = { params: Promise<{ id: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

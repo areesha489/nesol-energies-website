@@ -6,6 +6,7 @@ import {
   DEFAULT_HERO_SLIDE_IMAGES,
   DEFAULT_PROJECT_IMAGES,
   resolveMediaUrl,
+  resolveUploadUrl,
 } from "./media";
 import { readContentRaw, writeContentRaw } from "./content-persistence";
 
@@ -89,10 +90,32 @@ function normalizeProduct(item: Partial<ProductItem> & { image?: string; id?: st
 
 function mergeProducts(parsed: SiteContent["products"] | undefined): SiteContent["products"] {
   const defaults = defaultSiteContent.products;
-  const categories = (parsed?.categories ?? defaults.categories).map((cat) => ({
-    ...cat,
-    items: cat.items.map((item) => normalizeProduct(item)),
-  }));
+  const categories = (parsed?.categories ?? defaults.categories).map((cat, catIndex) => {
+    const defaultCat = defaults.categories.find((c) => c.id === cat.id) ?? defaults.categories[catIndex];
+
+    return {
+      ...cat,
+      title: cat.title ?? defaultCat?.title ?? "",
+      subtitle: cat.subtitle ?? defaultCat?.subtitle ?? "",
+      slug: cat.slug ?? defaultCat?.slug ?? "",
+      items: (cat.items ?? []).map((item, itemIndex) => {
+        const normalized = normalizeProduct(item);
+        const defaultItem = defaultCat?.items.find((d) => d.id === item.id) ?? defaultCat?.items[itemIndex];
+        const defaultImages = defaultItem?.images ?? [];
+
+        const images =
+          normalized.images.length > 0
+            ? normalized.images
+                .map((img, imageIndex) =>
+                  resolveUploadUrl(img, defaultImages[imageIndex] ?? defaultImages[0] ?? ""),
+                )
+                .filter(Boolean)
+            : defaultImages.map((img) => resolveUploadUrl(img, img));
+
+        return { ...normalized, images: images.length > 0 ? images : defaultImages };
+      }),
+    };
+  });
 
   return {
     badge: parsed?.badge ?? defaults.badge,
