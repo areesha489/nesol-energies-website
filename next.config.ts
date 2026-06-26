@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "raw.githubusercontent.com" },
       { protocol: "https", hostname: "files.catbox.moe" },
       { protocol: "https", hostname: "i.imgur.com" },
       { protocol: "https", hostname: "res.cloudinary.com" },

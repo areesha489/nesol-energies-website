@@ -19,6 +19,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Sirf JPG, PNG, WebP ya GIF allowed hain." }, { status: 400 });
     }
 
+    const maxBytes = 5 * 1024 * 1024;
+    if (file.size > maxBytes) {
+      return NextResponse.json({ error: "Image 5MB se chhoti honi chahiye." }, { status: 400 });
+    }
+
     const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
     const safeExt = ["jpg", "jpeg", "png", "webp", "gif"].includes(ext) ? ext : "jpg";
     const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${safeExt}`;
