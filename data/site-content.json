@@ -601,9 +601,7 @@
             "specs": "5kW | MPPT | WiFi Monitoring",
             "description": "Smart hybrid inverter with battery-ready design for homes and small businesses. Supports net metering and seamless backup switching.",
             "images": [
-              "https://images.unsplash.com/photo-1558449028-b06a8d0ea4d0?w=800&q=80",
-              "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80",
-              "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80"
+              "https://raw.githubusercontent.com/areesha489/nesol-energies-website/main/public/uploads/1782484005773-gzowse.jpg"
             ],
             "features": [
               "Dual MPPT trackers",
