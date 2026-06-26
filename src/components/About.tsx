@@ -29,7 +29,7 @@ export default function About({ preview = false }: { preview?: boolean }) {
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 50vw"
-                    unoptimized={imageSrc.startsWith("/uploads/")}
+                    quality={75}
                     onError={() => setImageSrc(defaultSiteContent.about.image)}
                   />
                 </div>

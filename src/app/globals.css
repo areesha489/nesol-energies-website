@@ -78,6 +78,11 @@ html {
   .glass {
     backdrop-filter: blur(8px);
   }
+
+  .ken-burns {
+    animation: none !important;
+    transform: none !important;
+  }
 }
 
 body {

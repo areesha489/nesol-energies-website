@@ -20,7 +20,7 @@ export default function HeroVideo() {
       muted
       loop
       playsInline
-      preload="auto"
+      preload="metadata"
       src={HERO_VIDEO}
       className="absolute inset-0 h-full w-full object-cover"
       aria-label="Solar panel installation video"

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Zap, Download } from "lucide-react";
 import Counter from "./Counter";
-import HeroVideo from "./HeroVideo";
+import DesktopHeroVideo from "./DesktopHeroVideo";
 import { useContent } from "./ContentProvider";
 
 export default function HeroSlider() {
@@ -14,11 +14,20 @@ export default function HeroSlider() {
   const companyProfilePdf = site.companyProfilePdf;
   const [current, setCurrent] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
   const INTERVAL = 5500;
 
   const goTo = useCallback((idx: number) => setCurrent(idx), []);
   const next = useCallback(() => goTo((current + 1) % heroSlides.length), [current, goTo, heroSlides.length]);
   const prev = useCallback(() => goTo((current - 1 + heroSlides.length) % heroSlides.length), [current, goTo, heroSlides.length]);
+
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 1024px)");
+    const update = () => setIsDesktop(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     setProgress(0);
@@ -39,8 +48,8 @@ export default function HeroSlider() {
 
   const visibleSlideIndexes = useMemo(() => {
     const nextIndex = (current + 1) % heroSlides.length;
-    return new Set([current, nextIndex]);
-  }, [current, heroSlides.length]);
+    return new Set(isDesktop ? [current, nextIndex] : [current]);
+  }, [current, heroSlides.length, isDesktop]);
 
   return (
     <section className="relative min-h-[100svh] max-h-[900px] h-auto sm:h-[90vh] sm:min-h-[580px] sm:max-h-[860px] overflow-hidden bg-[#0a1628]" aria-roledescription="carousel" aria-label="Hero slides">
@@ -58,8 +67,8 @@ export default function HeroSlider() {
                 priority={i === 0}
                 fetchPriority={i === 0 ? "high" : "auto"}
                 loading={i === 0 ? "eager" : "lazy"}
-                sizes="100vw"
-                unoptimized={s.image.startsWith("/uploads/")}
+                sizes="(max-width: 768px) 100vw, 100vw"
+                quality={75}
               />
             </div>
           );
@@ -118,7 +127,7 @@ export default function HeroSlider() {
               <div className="absolute -inset-8 rounded-full border border-dashed border-cyan-400/15" />
 
               <div className="relative h-[320px] w-[320px] overflow-hidden rounded-2xl border-4 border-white/90 bg-[#0a1628] shadow-2xl shadow-black/50">
-                <HeroVideo />
+                <DesktopHeroVideo />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
               </div>
 
