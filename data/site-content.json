@@ -680,6 +680,24 @@
             "availability": "In Stock",
             "price": 0,
             "priceNote": ""
+          },
+          {
+            "id": "50c2ae1a-08cc-4d2f-a4ea-b4232f2476f6",
+            "name": "New Product",
+            "brand": "Brand",
+            "specs": "Specs here",
+            "description": "Product description",
+            "images": [
+              "/uploads/1782489317001-ar2dij.jpg"
+            ],
+            "features": [
+              "Key feature 1",
+              "Key feature 2",
+              "Key feature 3"
+            ],
+            "availability": "In Stock",
+            "price": 0,
+            "priceNote": ""
           }
         ]
       }
