@@ -48,6 +48,11 @@ export const metadata: Metadata = {
     description: "Premium solar and renewable energy solutions across Pakistan.",
   },
   robots: { index: true, follow: true },
+  icons: {
+    icon: [{ url: "/icon.png", type: "image/png" }],
+    apple: [{ url: "/apple-icon.png", type: "image/png" }],
+    shortcut: "/icon.png",
+  },
 };
 
 export const viewport: Viewport = {
@@ -62,7 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     "@type": "Organization",
     name: "Nesol Energies",
     url: siteUrl,
-    logo: `${siteUrl}/company-profile.pdf`,
+    logo: `${siteUrl}/logo-icon.png`,
     description:
       "Premium solar panels, inverters, and renewable energy solutions across Pakistan.",
     contactPoint: {
