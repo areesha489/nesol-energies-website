@@ -104,7 +104,7 @@
       },
       {
         "id": "c40654fb-0eb8-45e3-82a8-3a97d913deb0",
-        "image": "/uploads/1782091166254-3oq33n.png",
+        "image": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1280&q=75&auto=format&fit=crop",
         "showcase": "https://images.unsplash.com/photo-1558449028-b06a8d0ea4d0?w=800&q=80",
         "title": "Smart Rooftop",
         "highlight": "Solar Systems",
@@ -112,7 +112,7 @@
       },
       {
         "id": "014f12bd-3b28-41d0-9d40-7fb14cedd18e",
-        "image": "/uploads/1782091329227-lmv0ns.png",
+        "image": "https://images.unsplash.com/photo-1558449028-b06a8d0ea4d0?w=1280&q=75&auto=format&fit=crop",
         "showcase": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80",
         "title": "Nesol Energies",
         "highlight": "Group of Companies",
@@ -137,7 +137,7 @@
     "heading": "Leading the",
     "headingHighlight": "Green Revolution",
     "paragraph": "Nesol Group of Companies brings together Nesol (Next Edge Solutions), Nesol Properties, Nesol Energies, and Organo Mart — delivering innovation, property, clean energy, and organic living across Pakistan.",
-    "image": "/uploads/1782095632087-c8ljbu.jpeg",
+    "image": "https://images.unsplash.com/photo-1613665813447-82a78c468028?w=800&q=80",
     "yearsBadge": {
       "value": "15+",
       "label": "Years of Excellence"

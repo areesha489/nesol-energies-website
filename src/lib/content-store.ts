@@ -3,6 +3,12 @@ import path from "path";
 import { unstable_cache, revalidateTag } from "next/cache";
 import type { SiteContent, NavLink, Project, ProductItem } from "./content-types";
 import { defaultSiteContent } from "./default-content";
+import {
+  DEFAULT_ABOUT_IMAGE,
+  DEFAULT_HERO_SLIDE_IMAGES,
+  DEFAULT_PROJECT_IMAGES,
+  resolveMediaUrl,
+} from "./media";
 
 const CONTENT_PATH = path.join(process.cwd(), "data", "site-content.json");
 
@@ -39,7 +45,19 @@ function normalizeProject(item: Partial<Project> & { capacity?: string; image?: 
 
 function mergeProjects(parsed: SiteContent["projects"] | undefined): SiteContent["projects"] {
   const defaults = defaultSiteContent.projects;
-  const items = (parsed?.items ?? defaults.items).map((item) => normalizeProject(item));
+  const items = (parsed?.items ?? defaults.items).map((item, index) => {
+    const normalized = normalizeProject(item);
+    const defaultImages = DEFAULT_PROJECT_IMAGES[index] ?? DEFAULT_PROJECT_IMAGES[0];
+
+    const images =
+      normalized.images.length > 0
+        ? normalized.images.map((img, imageIndex) =>
+            resolveMediaUrl(img, defaultImages[imageIndex] ?? defaultImages[0]),
+          )
+        : defaultImages;
+
+    return { ...normalized, images };
+  });
 
   return {
     badge: parsed?.badge ?? defaults.badge,
@@ -99,8 +117,27 @@ function mergeContent(parsed: Partial<SiteContent>): SiteContent {
     navLinks: mergeNavLinks(parsed.navLinks),
     socialLinks: parsed.socialLinks ?? defaultSiteContent.socialLinks,
     stats: parsed.stats ?? defaultSiteContent.stats,
-    hero: { ...defaultSiteContent.hero, ...parsed.hero },
-    about: { ...defaultSiteContent.about, ...parsed.about },
+    hero: {
+      ...defaultSiteContent.hero,
+      ...parsed.hero,
+      slides: (parsed.hero?.slides ?? defaultSiteContent.hero.slides).map((slide, index) => ({
+        ...slide,
+        image: resolveMediaUrl(
+          slide.image,
+          DEFAULT_HERO_SLIDE_IMAGES[index] ??
+            defaultSiteContent.hero.slides[index]?.image ??
+            DEFAULT_HERO_SLIDE_IMAGES[0],
+        ),
+      })),
+    },
+    about: {
+      ...defaultSiteContent.about,
+      ...parsed.about,
+      image: resolveMediaUrl(
+        parsed.about?.image ?? defaultSiteContent.about.image,
+        DEFAULT_ABOUT_IMAGE,
+      ),
+    },
     services: { ...defaultSiteContent.services, ...parsed.services },
     companies: { ...defaultSiteContent.companies, ...parsed.companies },
     projects: mergeProjects(parsed.projects),

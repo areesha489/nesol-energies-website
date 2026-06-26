@@ -1,14 +1,12 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Zap, Download } from "lucide-react";
 import Counter from "./Counter";
+import HeroVideo from "./HeroVideo";
 import { useContent } from "./ContentProvider";
-
-const HeroVideo = dynamic(() => import("./HeroVideo"), { ssr: false });
 
 export default function HeroSlider() {
   const { hero, stats, site } = useContent();
