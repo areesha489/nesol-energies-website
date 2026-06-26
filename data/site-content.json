@@ -621,8 +621,7 @@
             "specs": "10kW | Dual MPPT | IP65 Rated",
             "description": "Commercial-grade on-grid inverter for net metering installations. Rugged IP65 enclosure for outdoor and industrial use.",
             "images": [
-              "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80",
-              "https://images.unsplash.com/photo-1558449028-b06a8d0ea4d0?w=800&q=80"
+              "https://raw.githubusercontent.com/areesha489/nesol-energies-website/main/public/uploads/1782485287198-t4cqif.jpg"
             ],
             "features": [
               "10kW rated output",
