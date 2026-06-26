@@ -2,7 +2,8 @@ export function isUnoptimizedPreview(url: string) {
   return (
     url.startsWith("/uploads/") ||
     url.startsWith("/images/") ||
-    url.includes("blob.vercel-storage.com")
+    url.startsWith("http://") ||
+    url.startsWith("https://")
   );
 }
 
