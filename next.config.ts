@@ -1,9 +1,21 @@
 import type { NextConfig } from "next";
 
+const githubOwner = process.env.GITHUB_OWNER || "areesha489";
+const githubRepo = process.env.GITHUB_REPO || "nesol-energies-website";
+const githubBranch = process.env.GITHUB_BRANCH || "main";
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion"],
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/uploads/:path*",
+        destination: `https://raw.githubusercontent.com/${githubOwner}/${githubRepo}/${githubBranch}/public/uploads/:path*`,
+      },
+    ];
   },
   images: {
     formats: ["image/avif", "image/webp"],

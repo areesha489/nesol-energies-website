@@ -40,7 +40,10 @@ async function writeFileToGithub(filePath: string, contentBase64: string, messag
   const apiBase = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}`;
   const headers = getGithubHeaders(token);
 
-  const current = await fetch(apiBase + `?ref=${GITHUB_BRANCH}`, { headers });
+  const current = await fetch(apiBase + `?ref=${GITHUB_BRANCH}`, {
+    headers,
+    cache: "no-store",
+  });
   let sha: string | undefined;
 
   if (current.ok) {
@@ -74,34 +77,59 @@ async function readFromFilesystem(): Promise<string | null> {
   }
 }
 
-async function readFromGithub(): Promise<string | null> {
+async function readFromGithubApi(token: string): Promise<string | null> {
+  const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_CONTENT_PATH}?ref=${GITHUB_BRANCH}`;
+  const response = await fetch(apiUrl, {
+    headers: getGithubHeaders(token),
+    cache: "no-store",
+    next: { revalidate: 0 },
+  });
+
+  if (!response.ok) return null;
+
+  const data = (await response.json()) as { content?: string; encoding?: string };
+  if (data.content && data.encoding === "base64") {
+    return Buffer.from(data.content.replace(/\n/g, ""), "base64").toString("utf-8");
+  }
+
+  return null;
+}
+
+async function readFromGithubRaw(): Promise<string | null> {
+  const url = `${rawGithubUrl(GITHUB_CONTENT_PATH)}?t=${Date.now()}`;
+  const response = await fetch(url, { cache: "no-store", next: { revalidate: 0 } });
+  if (!response.ok) return null;
+
+  const text = await response.text();
+  return text.trim().startsWith("{") ? text : null;
+}
+
+async function readFromGithub(retries = 3): Promise<string | null> {
   const token = process.env.GITHUB_TOKEN;
-  if (token) {
-    try {
-      const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_CONTENT_PATH}?ref=${GITHUB_BRANCH}`;
-      const response = await fetch(apiUrl, {
-        headers: getGithubHeaders(token),
-        cache: "no-store",
-      });
-      if (response.ok) {
-        const data = (await response.json()) as { content?: string; encoding?: string };
-        if (data.content && data.encoding === "base64") {
-          return Buffer.from(data.content.replace(/\n/g, ""), "base64").toString("utf-8");
-        }
+
+  for (let attempt = 0; attempt < retries; attempt++) {
+    if (token) {
+      try {
+        const apiContent = await readFromGithubApi(token);
+        if (apiContent) return apiContent;
+      } catch {
+        // retry below
       }
+    }
+
+    try {
+      const rawContent = await readFromGithubRaw();
+      if (rawContent) return rawContent;
     } catch {
-      // Fall back to raw URL below.
+      // retry below
+    }
+
+    if (attempt < retries - 1) {
+      await new Promise((resolve) => setTimeout(resolve, 400 * (attempt + 1)));
     }
   }
 
-  const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${GITHUB_CONTENT_PATH}?t=${Date.now()}`;
-  try {
-    const response = await fetch(url, { cache: "no-store" });
-    if (!response.ok) return null;
-    return response.text();
-  } catch {
-    return null;
-  }
+  return null;
 }
 
 async function writeToGithub(raw: string) {
@@ -116,7 +144,9 @@ export async function readContentRaw(): Promise<string | null> {
   if (isLiveHost()) {
     const remote = await readFromGithub();
     if (remote) return remote;
+    console.error("[content] GitHub se content read fail — stale bundled JSON use ho sakta hai.");
   }
+
   return readFromFilesystem();
 }
 
@@ -134,7 +164,7 @@ export async function uploadPublicFile(filename: string, buffer: Buffer, _conten
   if (isLiveHost()) {
     const filePath = `public/uploads/${filename}`;
     await writeFileToGithub(filePath, buffer.toString("base64"), `Upload image ${filename}`);
-    return rawGithubUrl(filePath);
+    return `/uploads/${filename}`;
   }
 
   await fs.mkdir(UPLOAD_DIR, { recursive: true });

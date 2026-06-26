@@ -39,6 +39,24 @@ export function githubRawUploadUrl(uploadPath: string) {
   return `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${publicPath}`;
 }
 
+/** GitHub raw URLs ko local /uploads/ path mein convert karein — live + local dono par same format. */
+export function normalizeUploadUrl(url: string): string {
+  if (!url) return url;
+  if (url.startsWith("/uploads/") || url.startsWith("/images/")) return url;
+
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname === "raw.githubusercontent.com") {
+      const match = parsed.pathname.match(/\/public\/(uploads\/.+)$/);
+      if (match) return `/${match[1]}`;
+    }
+  } catch {
+    // not a URL
+  }
+
+  return url;
+}
+
 export function uploadExists(url: string) {
   if (!url.startsWith("/uploads/") && !url.startsWith("/images/")) return true;
   const filePath = path.join(process.cwd(), "public", url.replace(/^\//, ""));
@@ -47,18 +65,26 @@ export function uploadExists(url: string) {
 
 export function resolveUploadUrl(url: string, fallback = "") {
   if (!url) return fallback;
-  if (url.startsWith("/uploads/") || url.startsWith("/images/")) {
-    if (uploadExists(url)) return url;
-    if (url.startsWith("/uploads/")) return githubRawUploadUrl(url);
+
+  const normalized = normalizeUploadUrl(url);
+  if (normalized.startsWith("/uploads/") || normalized.startsWith("/images/")) {
+    if (uploadExists(normalized)) return normalized;
+    // Vercel par /uploads/ rewrite se GitHub se serve hota hai
+    if (process.env.VERCEL === "1" && normalized.startsWith("/uploads/")) return normalized;
+    if (normalized.startsWith("/uploads/")) return githubRawUploadUrl(normalized);
     return fallback;
   }
-  return url;
+
+  return normalized;
 }
 
 export function resolveMediaUrl(url: string, fallback: string) {
   if (!url) return fallback;
-  if (!url.startsWith("/uploads/") && !url.startsWith("/images/")) return url;
-  if (uploadExists(url)) return url;
-  if (url.startsWith("/uploads/")) return githubRawUploadUrl(url);
+
+  const normalized = normalizeUploadUrl(url);
+  if (!normalized.startsWith("/uploads/") && !normalized.startsWith("/images/")) return normalized;
+  if (uploadExists(normalized)) return normalized;
+  if (process.env.VERCEL === "1" && normalized.startsWith("/uploads/")) return normalized;
+  if (normalized.startsWith("/uploads/")) return githubRawUploadUrl(normalized);
   return fallback;
 }

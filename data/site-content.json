@@ -553,7 +553,7 @@
             "specs": "550W | 21.3% Efficiency | 25 Year Warranty",
             "description": "Premium tier-1 monocrystalline panel ideal for rooftop and ground-mount systems across Pakistan. Built for high yield in hot climates with excellent low-light performance.",
             "images": [
-              "https://raw.githubusercontent.com/areesha489/nesol-energies-website/main/public/uploads/1782481465907-mdblgp.jpg"
+              "/uploads/1782481465907-mdblgp.jpg"
             ],
             "features": [
               "21.3% module efficiency",
@@ -573,7 +573,7 @@
             "specs": "450W | 20.9% Efficiency | PID Resistant",
             "description": "Reliable performance in high-temperature climates with excellent low-light output. A trusted choice for residential solar installations.",
             "images": [
-              "https://raw.githubusercontent.com/areesha489/nesol-energies-website/main/public/uploads/1782483950172-i4mshb.jpg"
+              "/uploads/1782483950172-i4mshb.jpg"
             ],
             "features": [
               "20.9% efficiency rating",
@@ -601,7 +601,7 @@
             "specs": "5kW | MPPT | WiFi Monitoring",
             "description": "Smart hybrid inverter with battery-ready design for homes and small businesses. Supports net metering and seamless backup switching.",
             "images": [
-              "https://raw.githubusercontent.com/areesha489/nesol-energies-website/main/public/uploads/1782484005773-gzowse.jpg"
+              "/uploads/1782484005773-gzowse.jpg"
             ],
             "features": [
               "Dual MPPT trackers",
@@ -621,7 +621,7 @@
             "specs": "Specs here",
             "description": "Product description",
             "images": [
-              "https://raw.githubusercontent.com/areesha489/nesol-energies-website/main/public/uploads/1782485411906-ws5m3z.jpg"
+              "/uploads/1782485411906-ws5m3z.jpg"
             ],
             "features": [
               "Key feature 1",

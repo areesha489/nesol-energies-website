@@ -31,7 +31,7 @@ export async function PUT(request: Request) {
   try {
     const content = (await request.json()) as SiteContent;
     await saveSiteContent(content);
-    revalidateTag("site-content");
+    revalidateTag("site-content", "max");
     for (const route of REVALIDATE_PATHS) {
       revalidatePath(route, "layout");
     }

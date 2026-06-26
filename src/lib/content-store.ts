@@ -5,6 +5,7 @@ import {
   DEFAULT_ABOUT_IMAGE,
   DEFAULT_HERO_SLIDE_IMAGES,
   DEFAULT_PROJECT_IMAGES,
+  normalizeUploadUrl,
   resolveMediaUrl,
   resolveUploadUrl,
 } from "./media";
@@ -98,21 +99,13 @@ function mergeProducts(parsed: SiteContent["products"] | undefined): SiteContent
       title: cat.title ?? defaultCat?.title ?? "",
       subtitle: cat.subtitle ?? defaultCat?.subtitle ?? "",
       slug: cat.slug ?? defaultCat?.slug ?? "",
-      items: (cat.items ?? []).map((item, itemIndex) => {
+      items: (cat.items ?? []).map((item) => {
         const normalized = normalizeProduct(item);
-        const defaultItem = defaultCat?.items.find((d) => d.id === item.id) ?? defaultCat?.items[itemIndex];
-        const defaultImages = defaultItem?.images ?? [];
+        const images = normalized.images
+          .map((img) => resolveUploadUrl(normalizeUploadUrl(img), ""))
+          .filter(Boolean);
 
-        const images =
-          normalized.images.length > 0
-            ? normalized.images
-                .map((img, imageIndex) =>
-                  resolveUploadUrl(img, defaultImages[imageIndex] ?? defaultImages[0] ?? ""),
-                )
-                .filter(Boolean)
-            : defaultImages.map((img) => resolveUploadUrl(img, img));
-
-        return { ...normalized, images: images.length > 0 ? images : defaultImages };
+        return { ...normalized, images };
       }),
     };
   });
@@ -123,6 +116,22 @@ function mergeProducts(parsed: SiteContent["products"] | undefined): SiteContent
     headingHighlight: parsed?.headingHighlight ?? defaults.headingHighlight,
     subtitle: parsed?.subtitle ?? defaults.subtitle,
     categories,
+  };
+}
+
+function normalizeContentForSave(content: SiteContent): SiteContent {
+  return {
+    ...content,
+    products: {
+      ...content.products,
+      categories: content.products.categories.map((cat) => ({
+        ...cat,
+        items: cat.items.map((item) => ({
+          ...item,
+          images: (item.images ?? []).map((img) => normalizeUploadUrl(img)).filter(Boolean),
+        })),
+      })),
+    },
   };
 }
 
@@ -204,6 +213,7 @@ export async function getSiteContent(): Promise<SiteContent> {
 }
 
 export async function saveSiteContent(content: SiteContent): Promise<void> {
-  await writeContentRaw(JSON.stringify(content, null, 2));
-  revalidateTag("site-content");
+  const normalized = normalizeContentForSave(content);
+  await writeContentRaw(JSON.stringify(normalized, null, 2));
+  revalidateTag("site-content", "max");
 }

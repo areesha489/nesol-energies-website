@@ -4,6 +4,8 @@ import Products from "@/components/Products";
 import CTABanner from "@/components/CTABanner";
 import { createPageMetadata } from "@/lib/page-metadata";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = createPageMetadata(
   "/products",
   "Products | Nesol Energies",
