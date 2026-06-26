@@ -446,7 +446,7 @@ function ProductsSection({ content, update }: { content: SiteContent; update: (f
                     brand: "Brand",
                     specs: "Specs here",
                     description: "Product description",
-                    images: ["https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80"],
+                    images: [],
                     features: ["Key feature 1", "Key feature 2", "Key feature 3"],
                     availability: "In Stock",
                     price: 0,
@@ -561,9 +561,11 @@ function ProductsSection({ content, update }: { content: SiteContent; update: (f
                 </button>
               </div>
               <ImagesField
-                label="Product Images (2–3 recommended)"
+                label="Product Images"
+                description="Apni product ki images upload karein (JPG, PNG, WebP) — pehli image cover banegi"
                 value={item.images ?? []}
-                onChange={(images) => updateProduct(category.id, item.id, { images: images.slice(0, 3) })}
+                onChange={(images) => updateProduct(category.id, item.id, { images })}
+                maxImages={5}
               />
               <Field label="Name" value={item.name} onChange={(v) => updateProduct(category.id, item.id, { name: v })} />
               <div className="grid gap-4 sm:grid-cols-2">

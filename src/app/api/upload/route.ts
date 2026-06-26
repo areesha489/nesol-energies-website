@@ -1,10 +1,20 @@
 import { NextResponse } from "next/server";
 import { isAuthenticated } from "@/lib/auth";
-import { uploadPublicFile } from "@/lib/content-persistence";
+import { uploadPublicFile, useBlobStorage } from "@/lib/content-persistence";
 
 export async function POST(request: Request) {
   if (!(await isAuthenticated())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (process.env.VERCEL === "1" && !useBlobStorage()) {
+    return NextResponse.json(
+      {
+        error:
+          "Image upload ke liye Vercel Blob storage chahiye. Vercel dashboard se Blob connect karein.",
+      },
+      { status: 503 },
+    );
   }
 
   try {

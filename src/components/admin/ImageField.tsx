@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { Upload, Link as LinkIcon, Loader2 } from "lucide-react";
+import { Upload, Link as LinkIcon, Loader2, ImagePlus } from "lucide-react";
 
 interface ImageFieldProps {
   label: string;
@@ -10,18 +10,35 @@ interface ImageFieldProps {
   onChange: (url: string) => void;
 }
 
+function previewUnoptimized(url: string) {
+  return url.startsWith("/uploads/") || url.includes("blob.vercel-storage.com");
+}
+
 export default function ImageField({ label, value, onChange }: ImageFieldProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
 
   async function handleUpload(file: File) {
+    if (!file.type.startsWith("image/")) {
+      setError("Sirf image files upload ho sakti hain.");
+      return;
+    }
+
     setUploading(true);
+    setError("");
     try {
       const formData = new FormData();
       formData.append("file", file);
       const res = await fetch("/api/upload", { method: "POST", body: formData });
       const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Upload failed.");
+        return;
+      }
       if (data.url) onChange(data.url);
+    } catch {
+      setError("Network error during upload.");
     } finally {
       setUploading(false);
     }
@@ -36,19 +53,23 @@ export default function ImageField({ label, value, onChange }: ImageFieldProps) 
           <input
             type="url"
             value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="Image URL or upload"
+            onChange={(e) => {
+              onChange(e.target.value);
+              setError("");
+            }}
+            placeholder="Image URL ya upload karein"
             className="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-9 pr-3 text-sm focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-400/20"
           />
         </div>
         <input
           ref={inputRef}
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp,image/gif"
           className="hidden"
           onChange={(e) => {
             const file = e.target.files?.[0];
             if (file) handleUpload(file);
+            e.target.value = "";
           }}
         />
         <button
@@ -61,9 +82,21 @@ export default function ImageField({ label, value, onChange }: ImageFieldProps) 
           Upload
         </button>
       </div>
-      {value && (
-        <div className="relative h-24 w-full overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
-          <Image src={value} alt="Preview" fill className="object-cover" sizes="400px" unoptimized />
+      {error && <p className="text-xs font-medium text-red-600">{error}</p>}
+      {value ? (
+        <div className="relative h-32 w-full overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+          <Image
+            src={value}
+            alt="Preview"
+            fill
+            className="object-cover"
+            sizes="400px"
+            unoptimized={previewUnoptimized(value)}
+          />
+        </div>
+      ) : (
+        <div className="flex h-24 items-center justify-center rounded-lg border border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
+          <ImagePlus size={16} className="mr-1.5" /> Preview yahan dikhegi
         </div>
       )}
     </div>
