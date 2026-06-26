@@ -104,7 +104,7 @@
       },
       {
         "id": "c40654fb-0eb8-45e3-82a8-3a97d913deb0",
-        "image": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1280&q=75&auto=format&fit=crop",
+        "image": "/uploads/1782091166254-3oq33n.png",
         "showcase": "https://images.unsplash.com/photo-1558449028-b06a8d0ea4d0?w=800&q=80",
         "title": "Smart Rooftop",
         "highlight": "Solar Systems",
@@ -112,7 +112,7 @@
       },
       {
         "id": "014f12bd-3b28-41d0-9d40-7fb14cedd18e",
-        "image": "https://images.unsplash.com/photo-1558449028-b06a8d0ea4d0?w=1280&q=75&auto=format&fit=crop",
+        "image": "/uploads/1782091329227-lmv0ns.png",
         "showcase": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80",
         "title": "Nesol Energies",
         "highlight": "Group of Companies",
@@ -137,7 +137,7 @@
     "heading": "Leading the",
     "headingHighlight": "Green Revolution",
     "paragraph": "Nesol Group of Companies brings together Nesol (Next Edge Solutions), Nesol Properties, Nesol Energies, and Organo Mart — delivering innovation, property, clean energy, and organic living across Pakistan.",
-    "image": "https://images.unsplash.com/photo-1613665813447-82a78c468028?w=800&q=80",
+    "image": "/uploads/1782432955981-ohuvri.webp",
     "yearsBadge": {
       "value": "15+",
       "label": "Years of Excellence"
@@ -514,6 +514,219 @@
         "minPrice": 35000,
         "maxPrice": 60000,
         "label": "Industrial"
+      }
+    ]
+  },
+  "productsNav": {
+    "label": "Products",
+    "items": [
+      {
+        "label": "Solar Panels",
+        "href": "/products#panels"
+      },
+      {
+        "label": "Inverters",
+        "href": "/products#inverters"
+      },
+      {
+        "label": "Batteries",
+        "href": "/products#batteries"
+      }
+    ]
+  },
+  "products": {
+    "badge": "Our Products",
+    "heading": "Premium Solar",
+    "headingHighlight": "Equipment",
+    "subtitle": "Tier-1 solar panels, high-efficiency inverters, and reliable battery storage — all backed by Nesol Energies warranty and support.",
+    "categories": [
+      {
+        "id": "cat-panels",
+        "slug": "panels",
+        "title": "Solar Panels",
+        "subtitle": "High-efficiency monocrystalline and polycrystalline panels for residential and commercial use.",
+        "items": [
+          {
+            "id": "panel-550w-mono-perc",
+            "name": "550W Mono PERC Panel",
+            "brand": "Longi / Jinko",
+            "specs": "550W | 21.3% Efficiency | 25 Year Warranty",
+            "description": "Premium tier-1 monocrystalline panel ideal for rooftop and ground-mount systems across Pakistan. Built for high yield in hot climates with excellent low-light performance.",
+            "images": [
+              "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80",
+              "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&q=80",
+              "https://images.unsplash.com/photo-1497435334941-8c899ee9e9e0?w=800&q=80"
+            ],
+            "features": [
+              "21.3% module efficiency",
+              "25-year performance warranty",
+              "PID resistant & anti-salt corrosion",
+              "Half-cut cell technology",
+              "Ideal for rooftop & ground mount"
+            ],
+            "availability": "In Stock",
+            "price": 18500,
+            "priceNote": "Per panel · Installation extra"
+          },
+          {
+            "id": "panel-450w-half-cut",
+            "name": "450W Half-Cut Panel",
+            "brand": "Canadian Solar",
+            "specs": "450W | 20.9% Efficiency | PID Resistant",
+            "description": "Reliable performance in high-temperature climates with excellent low-light output. A trusted choice for residential solar installations.",
+            "images": [
+              "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&q=80",
+              "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80"
+            ],
+            "features": [
+              "20.9% efficiency rating",
+              "Excellent low-light performance",
+              "Reduced hot-spot risk",
+              "Tier-1 bankable brand",
+              "12-year product warranty"
+            ],
+            "availability": "In Stock",
+            "price": 15200,
+            "priceNote": "Per panel · Bulk discounts available"
+          }
+        ]
+      },
+      {
+        "id": "cat-inverters",
+        "slug": "inverters",
+        "title": "Inverters",
+        "subtitle": "On-grid, hybrid, and off-grid inverters with smart monitoring and net metering support.",
+        "items": [
+          {
+            "id": "inverter-5kw-hybrid",
+            "name": "5kW Hybrid Inverter",
+            "brand": "Growatt / Huawei",
+            "specs": "5kW | MPPT | WiFi Monitoring",
+            "description": "Smart hybrid inverter with battery-ready design for homes and small businesses. Supports net metering and seamless backup switching.",
+            "images": [
+              "https://images.unsplash.com/photo-1558449028-b06a8d0ea4d0?w=800&q=80",
+              "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80",
+              "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80"
+            ],
+            "features": [
+              "Dual MPPT trackers",
+              "WiFi app monitoring",
+              "Battery-ready hybrid design",
+              "98.4% max efficiency",
+              "Silent fan cooling system"
+            ],
+            "availability": "In Stock",
+            "price": 285000,
+            "priceNote": "Includes 2-year warranty"
+          },
+          {
+            "id": "inverter-10kw-on-grid",
+            "name": "10kW On-Grid Inverter",
+            "brand": "Sungrow",
+            "specs": "10kW | Dual MPPT | IP65 Rated",
+            "description": "Commercial-grade on-grid inverter for net metering installations. Rugged IP65 enclosure for outdoor and industrial use.",
+            "images": [
+              "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80",
+              "https://images.unsplash.com/photo-1558449028-b06a8d0ea4d0?w=800&q=80"
+            ],
+            "features": [
+              "10kW rated output",
+              "Dual MPPT inputs",
+              "IP65 weatherproof rating",
+              "Net metering compatible",
+              "Smart grid monitoring"
+            ],
+            "availability": "In Stock",
+            "price": 420000,
+            "priceNote": "Commercial grade · Free delivery in Lahore"
+          }
+        ]
+      },
+      {
+        "id": "cat-batteries",
+        "slug": "batteries",
+        "title": "Batteries",
+        "subtitle": "Lithium-ion and tubular battery solutions for backup power and hybrid solar systems.",
+        "items": [
+          {
+            "id": "battery-5kwh-lithium",
+            "name": "5kWh Lithium Battery",
+            "brand": "Pylontech / Dyness",
+            "specs": "5kWh | 6000+ Cycles | Wall Mount",
+            "description": "Compact lithium battery pack for hybrid solar backup with fast charging. Stackable design for expanding storage capacity.",
+            "images": [
+              "https://images.unsplash.com/photo-1613665813447-82a78c468028?w=800&q=80",
+              "https://images.unsplash.com/photo-1497435334941-8c899ee9e9e0?w=800&q=80",
+              "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80"
+            ],
+            "features": [
+              "5kWh usable capacity",
+              "6000+ charge cycles",
+              "Wall-mount compact design",
+              "Fast charge & discharge",
+              "BMS safety protection"
+            ],
+            "availability": "In Stock",
+            "price": 385000,
+            "priceNote": "Wall-mount kit included"
+          },
+          {
+            "id": "battery-200ah-tubular",
+            "name": "200Ah Tubular Battery",
+            "brand": "Phoenix / Osaka",
+            "specs": "200Ah | Deep Cycle | 2 Year Warranty",
+            "description": "Heavy-duty tubular battery for off-grid and UPS backup applications. Proven reliability for Pakistani load-shedding conditions.",
+            "images": [
+              "https://images.unsplash.com/photo-1497435334941-8c899ee9e9e0?w=800&q=80",
+              "https://images.unsplash.com/photo-1613665813447-82a78c468028?w=800&q=80"
+            ],
+            "features": [
+              "200Ah deep cycle capacity",
+              "Long backup runtime",
+              "Low maintenance tubular design",
+              "High charge acceptance",
+              "2-year warranty included"
+            ],
+            "availability": "In Stock",
+            "price": 52000,
+            "priceNote": "Per unit · Exchange available"
+          }
+        ]
+      }
+    ]
+  },
+  "blog": {
+    "badge": "Nesol Blog",
+    "heading": "Solar Insights",
+    "headingHighlight": "& News",
+    "subtitle": "Latest updates on solar technology, energy savings tips, and Nesol Energies projects across Pakistan.",
+    "posts": [
+      {
+        "id": "482bf874-7973-4e8a-89df-083502088360",
+        "title": "5kW Solar System: Complete Cost Guide for Pakistan 2024",
+        "excerpt": "Learn how much a 5kW solar system costs in Pakistan, what it includes, and how much you can save on electricity bills.",
+        "content": "A 5kW solar system is the most popular choice for Pakistani homes. It typically includes 9-11 panels, a 5kW inverter, mounting structure, and installation.\n\nAverage savings range from Rs 15,000 to Rs 25,000 per month depending on your electricity tariff and usage patterns.\n\nNesol Energies offers free site surveys and customized quotes. Contact us for an exact price based on your roof and energy needs.",
+        "image": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80",
+        "date": "2024-06-15",
+        "author": "Nesol Energies"
+      },
+      {
+        "id": "4910a55e-8744-48d0-9701-bd3399b87b3d",
+        "title": "Net Metering in Pakistan: Step-by-Step Process",
+        "excerpt": "Everything you need to know about applying for net metering with DISCOs in Sindh, Punjab, and across Pakistan.",
+        "content": "Net metering allows you to sell excess solar energy back to the grid. The process involves:\n\n1. System installation by a certified installer\n2. NOC from DISCO\n3. Application submission with required documents\n4. Inspection and meter installation\n\nNesol Energies handles the complete net metering process for our clients.",
+        "image": "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&q=80",
+        "date": "2024-05-20",
+        "author": "Nesol Energies"
+      },
+      {
+        "id": "86ffc6b7-75b4-4dc1-862e-77e8056d2908",
+        "title": "Hybrid vs On-Grid Solar: Which is Right for You?",
+        "excerpt": "Compare hybrid and on-grid solar systems to find the best solution for load shedding and bill savings.",
+        "content": "On-grid systems are ideal if you have reliable grid power and want maximum bill savings through net metering.\n\nHybrid systems add battery backup for load shedding — perfect for areas with frequent power outages.\n\nOur experts at Nesol Energies can recommend the best option after a free consultation.",
+        "image": "https://images.unsplash.com/photo-1558449028-b06a8d0ea4d0?w=800&q=80",
+        "date": "2024-04-10",
+        "author": "Nesol Energies"
       }
     ]
   },

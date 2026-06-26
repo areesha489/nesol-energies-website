@@ -59,6 +59,7 @@ export default function HeroSlider() {
                 fetchPriority={i === 0 ? "high" : "auto"}
                 loading={i === 0 ? "eager" : "lazy"}
                 sizes="100vw"
+                unoptimized={s.image.startsWith("/uploads/")}
               />
             </div>
           );
@@ -117,7 +118,7 @@ export default function HeroSlider() {
               <div className="absolute -inset-8 rounded-full border border-dashed border-cyan-400/15" />
 
               <div className="relative h-[320px] w-[320px] overflow-hidden rounded-2xl border-4 border-white/90 bg-[#0a1628] shadow-2xl shadow-black/50">
-                <HeroVideo poster={slide.showcase || slide.image} />
+                <HeroVideo />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
               </div>
 

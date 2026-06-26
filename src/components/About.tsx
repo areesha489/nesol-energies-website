@@ -1,15 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Shield, Cpu, Wallet, ArrowRight } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { useContent } from "./ContentProvider";
+import { defaultSiteContent } from "@/lib/default-content";
 
 const iconMap = { shield: Shield, cpu: Cpu, wallet: Wallet };
 
 export default function About({ preview = false }: { preview?: boolean }) {
   const { about } = useContent();
+  const [imageSrc, setImageSrc] = useState(about.image);
 
   return (
     <section className="section-pad relative bg-gray-50 overflow-hidden">
@@ -21,11 +24,13 @@ export default function About({ preview = false }: { preview?: boolean }) {
               <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-cyan-500 to-orange-400 p-[2px] shadow-xl transition-transform duration-500 group-hover:scale-[1.02]">
                 <div className="relative h-full w-full overflow-hidden rounded-[14px]">
                   <Image
-                    src={about.image}
+                    src={imageSrc}
                     alt="Solar panels on a residential rooftop"
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 50vw"
+                    unoptimized={imageSrc.startsWith("/uploads/")}
+                    onError={() => setImageSrc(defaultSiteContent.about.image)}
                   />
                 </div>
               </div>
